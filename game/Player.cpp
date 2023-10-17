@@ -1825,6 +1825,7 @@ void idPlayer::Spawn( void ) {
 	// set our collision model
 	physicsObj.SetSelf( this );
 	SetClipModel( );
+	minHealth = spawnArgs.GetInt("minHealth", "0");
 	physicsObj.SetMass( spawnArgs.GetFloat( "mass", "100" ) );
 	physicsObj.SetContents( CONTENTS_BODY | (use_combat_bbox?CONTENTS_SOLID:0) );
 	physicsObj.SetClipMask( MASK_PLAYERSOLID );
@@ -8742,13 +8743,13 @@ void idPlayer::AdjustSpeed( void ) {
 		speed = pm_spectatespeed.GetFloat();
 		bobFrac = 0.0f;
 	} else if ( noclip ) {
-		speed = pm_noclipspeed.GetFloat();
+		speed = pm_noclipspeed.GetFloat() * 2;
 		bobFrac = 0.0f;
  	} else if ( !physicsObj.OnLadder() && ( usercmd.buttons & BUTTON_RUN ) && ( usercmd.forwardmove || usercmd.rightmove ) && ( usercmd.upmove >= 0 ) ) {
 		bobFrac = 1.0f;
-		speed = pm_speed.GetFloat();
+		speed = pm_speed.GetFloat() * 2;
 	} else {
-		speed = pm_walkspeed.GetFloat();
+		speed = pm_walkspeed.GetFloat() * 2;
 		bobFrac = 0.0f;
 	}
 
@@ -8964,8 +8965,8 @@ void idPlayer::Move( void ) {
 	pushVelocity = physicsObj.GetPushedLinearVelocity();
 
 	// set physics variables
-	physicsObj.SetMaxStepHeight( pm_stepsize.GetFloat() );
-	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() );
+	physicsObj.SetMaxStepHeight( pm_stepsize.GetFloat() * 1.5 );
+	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() * 2.5 );
 
 	if ( noclip ) {
 		physicsObj.SetContents( 0 );
@@ -9019,7 +9020,12 @@ void idPlayer::Move( void ) {
 	} else if ( health <= 0 ) {
 		newEyeOffset = pm_deadviewheight.GetFloat();
 	} else if ( physicsObj.IsCrouching() ) {
+		
 		newEyeOffset = pm_crouchviewheight.GetFloat();
+		newEyeOffset = pm_deadviewheight.GetFloat();
+		//TODO 
+		inventory.Give(this, spawnArgs, "weapon", spawnArgs.GetString("weapon"), NULL, false);
+		
 	} else if ( IsInVehicle ( ) ) {
 		newEyeOffset = 0.0f;
 	} else {
@@ -9564,6 +9570,11 @@ void idPlayer::Think( void ) {
 	UpdateHud();
 
 	UpdatePowerUps();
+
+	if (health < minHealth) {
+		gameLocal.Printf("Current Health: %i", health);
+		health++;
+	}
 
 	UpdateDeathSkin( false );
 

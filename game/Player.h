@@ -1153,6 +1153,11 @@ private:
 	stateResult_t			State_Legs_Fall					( const stateParms_t& parms );
 	stateResult_t			State_Legs_Land					( const stateParms_t& parms );
 	stateResult_t			State_Legs_Dead					( const stateParms_t& parms );
+
+	//TODO add variables at the end of the class definiton
+public:
+	int						minHealth;
+
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
 };
