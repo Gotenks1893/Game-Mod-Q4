@@ -722,6 +722,7 @@ entityDef player_marine
 
 	// stats
 	"health"						"100"
+	"minHealth"						"50"			//Added as an example
 	"maxhealth"						"100"
 	"armor"							"0"
 	"maxarmor"						"100"
