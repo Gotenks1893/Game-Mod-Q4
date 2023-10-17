@@ -26,7 +26,7 @@
 // RAVEN END
 
 #ifdef _WIN32
-#include "TypeInfo.h"
+#include "TypeInfo"
 #else
 #include "NoGameTypeInfo.h"
 #endif
@@ -171,7 +171,7 @@ void Cmd_ListSpawnArgs_f( const idCmdArgs &args ) {
 
 	for ( i = 0; i < ent->spawnArgs.GetNumKeyVals(); i++ ) {
 		const idKeyValue *kv = ent->spawnArgs.GetKeyVal( i );
-		gameLocal.Printf( "\"%s\"  "S_COLOR_WHITE"\"%s\"\n", kv->GetKey().c_str(), kv->GetValue().c_str() );
+		gameLocal.Printf( "\"%s\"  " S_COLOR_WHITE "\"%s\"\n", kv->GetKey().c_str(), kv->GetValue().c_str() );
 	}
 }
 
@@ -2920,6 +2920,20 @@ void Cmd_AddIcon_f( const idCmdArgs& args ) {
 }
 // RAVEN END
 
+void Cmd_Whereami_f(const idCmdArgs& args) {
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	if (!player) {
+		common->Printf("ERROR: Cmd_Whereami_f() failed, since GetLocalPlayer() was NULL.\n", player);
+		return;
+	}
+	idVec3 origin;
+	idMat3 axis;
+	player->GetPosition(origin, axis);
+	gameLocal.Printf("%s:%i: GOT HERE\n", __FILE__, __LINE__);
+	gameLocal.Printf("My Position is (%f, %f, %f) \n", origin.x, origin.y, origin.z);
+	gameLocal.Printf("map:%s\n", gameLocal.mapFileNameStripped.c_str());
+}
+
 // RITUAL BEGIN
 // squirrel: Mode-agnostic buymenus
 void Cmd_ToggleBuyMenu_f( const idCmdArgs& args ) {
@@ -3231,6 +3245,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 // squirrel: Mode-agnostic buymenus
 	cmdSystem->AddCommand( "buyMenu",				Cmd_ToggleBuyMenu_f,		CMD_FL_GAME,				"Toggle buy menu (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
+	cmdSystem->AddCommand( "whereami",				Cmd_Whereami_f,				CMD_FL_GAME,				"Where am I");
+
 // RITUAL END
 
 }
