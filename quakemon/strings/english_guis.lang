@@ -5,7 +5,7 @@
 {
 	"#str_200000"	"NEW GAME"
 	"#str_200001"	"LOAD GAME"
-	"#str_200002"	"ABOUT THIS MOD"
+	"#str_200002"	"MULTIPLAYER"
 	"#str_200003"	"SAVE GAME"
 	"#str_200004"	"QUIT CURRENT GAME"
 	"#str_200005"	"RETURN TO GAME"
@@ -1114,4 +1114,8 @@
 	"#str_223007"	"Gun Position"
 	"#str_223008"	"Right;Centered;Lower Right"
 	"#str_223009"	"Enable detailed sky"
+	
+	"#str_223010"	"ABOUT THIS MOD"
+	"#str_223011"	"Quakemon: This mod is a Pokemon-like game in Quake. You are able to fight against Quakemon, level your Quakemon and use items on your Quakemon."
+
 }

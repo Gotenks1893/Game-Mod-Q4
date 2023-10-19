@@ -4,9 +4,9 @@ windowDef Desktop
 	menugui	1
 	rect	0,0,640,480
 	backcolor	0,0,0,1
-	definevec4	"corner"	0.564,0.603,0.286,0.4
-	definevec4	"corner_0"	0.564,0.603,0.286,0
-	definevec4	"white"		1,1,1,1
+	definevec4	"corner"	0.564,0.203,0.286,0.4
+	definevec4	"corner_0"	0.564,0.203,0.286,0
+	definevec4	"white"	1,1,1,1
 	definevec4	"white_8"	1,1,1,0.8
 	definevec4	"white_5"	1,1,1,0.5
 	definevec4	"white_4"	1,1,1,0.4
@@ -16,18 +16,18 @@ windowDef Desktop
 	definevec4	"cr_green"	0.835,0,0.654,0.8
 	definevec4	"cr_green_0"	0.835,0,0.654,0
 	definevec4	"white_6"	1,1,1,0.6
-	definevec4	"black"		0,0,0,1
+	definevec4	"black"	0,0,0,1
 	definevec4	"orange"	0.890,0,0,1
 	definevec4	"yellow_8"	1,0.745,0.137,0.8
 	definevec4	"grey1_4"	0.435,0.435,0.435,0.4
-  	definefloat	"tooltip_x_offset"	"gui::mousex" - 255
-  	definefloat	"tooltip_y_offset"	"gui::mousey" - 186
-  	defineicon	"fve"	"gfx/guis/mainmenu/icon_favorite.tga"
-  	defineicon	"pse"	"gfx/guis/mainmenu/icon_locked.tga"
-  	defineicon	"dse"	"gfx/guis/mainmenu/icon_dedserver.tga"
-  	defineicon	"pbe"	"gfx/guis/mainmenu/icon_pb.tga"	
+	definefloat	"tooltip_x_offset"	gui::mousex-255
+	definefloat	"tooltip_y_offset"	gui::mousey-186
+	defineicon	"fve"	"gfx/guis/mainmenu/icon_favorite.tga"
+	defineicon	"pse"	"gfx/guis/mainmenu/icon_locked.tga"
+	defineicon	"dse"	"gfx/guis/mainmenu/icon_dedserver.tga"
+	defineicon	"pbe"	"gfx/guis/mainmenu/icon_pb.tga"
 	defineicon	"rpe"	"gfx/guis/mainmenu/icon_repeater.tga"
-  	defineicon	"arr"	"gfx/guis/mainmenu/icon_arrow.tga"
+	defineicon	"arr"	"gfx/guis/mainmenu/icon_arrow.tga"
 	float	"active"	0
 	float	"dest"	0
 	float	"curr"	0
@@ -41,7 +41,7 @@ windowDef Desktop
 	float	"tooltip_y"	0
 	float	"tooltip_w"	0
 	float	"tooltip_h"	0
-	float	"music"		0
+	float	"music"	0
 	float	"video_num"	0
 	float	"video_check"	0
 	float	"credits"	0
@@ -132,6 +132,7 @@ windowDef Desktop
 		// 33 = popup_create_advanced_banlist
 		// 34 = popup_vidsettings_warning
 		// 35 = popup_advanced_sound_settings
+		// 36 = about this mod
 	}
 
 	onActivate {
@@ -196,7 +197,11 @@ windowDef Desktop
 			set "main_t_b6::forecolor_w" "0.5" ; 
 			set "main_b6_corner::matcolor_w" "0.4" ; 
 			set "main_t_b7::forecolor_w" "0.5" ; 
-			set "main_b7_corner::matcolor_w" "0.4" ;			
+			set "main_b7_corner::matcolor_w" "0.4" ;
+
+			set "main_b9::matcolor_w" "0.4" ;
+			set "main_t_b9::forecolor_w" "0.8" ; 
+			set "main_b9_corner::matcolor_w" "0.4" ;
 		}
 	}
 
@@ -223,7 +228,7 @@ windowDef Desktop
 				set "video_id::visible" "0" ;
 				set "video_raven::visible" "0" ;
 				set "video_bethsoft::visible" "0" ;
-
+				
 				showcursor "1" ;
 				
 				namedevent "desktop::ingameCheck" ;
@@ -384,12 +389,12 @@ windowDef Desktop
 			set "desktop::dest" "24" ;
 			set "cmd" "play main_menu_selection" ;
 		} else if ("desktop::curr" == 34 && "desktop::active" == 0) {
-//			consolecmd "vid_restart" ;
+			//			consolecmd "vid_restart" ;
 			
 			set "set_sys_notice::visible" "0" ;
-//			set "set_vidrestart::visible" "0" ;
-//			set "set_t_vidrestart::visible" "0" ;
-//			set "set_b_vidrestart::visible" "0" ;
+			//			set "set_vidrestart::visible" "0" ;
+			//			set "set_t_vidrestart::visible" "0" ;
+			//			set "set_b_vidrestart::visible" "0" ;
 			
 			set "desktop::active" "1" ;	
 			resettime "anim_pop_vidwarnOut" "0" ;
@@ -401,7 +406,12 @@ windowDef Desktop
 			resettime "anim_pop_sndadvOut" "0" ;
 			set "desktop::dest" "22" ;
 			set "cmd" "play main_menu_selection" ;
-		}
+		}  else if ("desktop::curr" == 36 && "desktop::active" == 0) {
+			set "desktop::active" "1" ;
+			resettime "anim_aboutModOut" "0" ;
+			set "desktop::dest" "0" ;
+			set "cmd" "play main_menu_selection" ;
+		} 
 		
 	}
 
@@ -459,9 +469,13 @@ windowDef Desktop
 			set "main_b6_corner::matcolor_w" "0.4" ; 
 			set "main_t_b7::forecolor_w" "0.5" ; 
 			set "main_b7_corner::matcolor_w" "0.4" ;
-			set "main_b9::matcolor_w" "0" ; 
-			set "main_t_b9::forecolor_w" "0" ; 
-			set "main_b9_corner::matcolor_w" "0" ; 
+			set "main_b9::matcolor_w" "0.4" ; 
+			set "main_t_b9::forecolor_w" "0.8" ; 
+			set "main_b9_corner::matcolor_w" "0.4" ;
+			set "main_b10::matcolor_w" "0" ; 
+			set "main_t_b10::forecolor_w" "0" ;
+			set "main_b10_corner::matcolor_w" "0" ; 
+
 			
 			set "main_b_returnmp::visible" "0" ;		
 			set "main_b_newgame::visible" "1" ;
@@ -476,10 +490,12 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "1" ;
 			set "main_b_settings::visible" "1" ;
 			set "main_b_exit::visible" "1" ;
+			set "main_b_aboutMod::visible" "1" ;
 			
 			set "main_t_b1::text" "#str_200000" ;
 			set "main_t_b2::text" "#str_200001" ;
 			set "main_t_b3::text" "#str_200002" ;
+			set "main_t_b9::text" "#str_223010" ;
 			
 			set "desktop::music" "0" ;
 		} else if ("gui::ingame" == 1 && "desktop::curr" != 16) {
@@ -494,8 +510,11 @@ windowDef Desktop
 			set "main_b7_corner::matcolor_w" "0" ;
 			set "main_b9::matcolor_w" "0.4" ; 
 			set "main_t_b9::forecolor_w" "0.8" ; 
-			set "main_b9_corner::matcolor_w" "0.4" ; 
-			
+			set "main_b9_corner::matcolor_w" "0.4" ;
+			set "main_b10::matcolor_w" "0.4" ; 
+			set "main_t_b10::forecolor_w" "0.8" ;
+			set "main_b10_corner::matcolor_w" "0.4" ; 
+
 			set "main_b_returnmp::visible" "0" ;
 			set "main_b_newgame::visible" "0" ;
 			set "main_b_savegame::visible" "1" ;
@@ -509,10 +528,12 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "1" ;
 			set "main_b_settings::visible" "1" ;
 			set "main_b_exit::visible" "1" ;
+			set "main_b_aboutMod::visible" "1" ;
 			
 			set "main_t_b1::text" "#str_200003" ;
 			set "main_t_b2::text" "#str_200001" ;
 			set "main_t_b3::text" "#str_200004" ;
+			set "main_t_b10::text" "#str_200005" ;
 			
 			set "desktop::music" "1" ;
 			
@@ -530,6 +551,10 @@ windowDef Desktop
 			set "main_b9::matcolor_w" "0" ; 
 			set "main_t_b9::forecolor_w" "0" ; 
 			set "main_b9_corner::matcolor_w" "0" ; 
+			set "main_b10::matcolor_w" "0" ; 
+			set "main_t_b10::forecolor_w" "0" ;
+			set "main_b10_corner::matcolor_w" "0" ; 
+
 			
 			set "main_b_returnmp::visible" "1" ;
 			set "main_b_newgame::visible" "0" ;
@@ -544,6 +569,7 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "0" ;
 			set "main_b_settings::visible" "1" ;
 			set "main_b_exit::visible" "1" ;
+			set "main_b_aboutMod::visible" "0" ;
 			
 			set "main_t_b1::text" "#str_200005" ;
 			set "main_t_b2::text" "#str_200006" ;
@@ -847,7 +873,14 @@ windowDef Desktop
 			}
 			windowDef main_b9
 			{
-				rect	0,322,413,52
+				rect	-1,322,413,52
+				visible	1
+				background	"gfx/guis/mainmenu/b1_dark"
+				matcolor	1,1,1,0.4
+			}
+			windowDef main_b10
+			{
+				rect	-1,352,413,52
 				visible	1
 				background	"gfx/guis/mainmenu/b1_dark"
 				matcolor	1,1,1,0
@@ -885,11 +918,18 @@ windowDef Desktop
 				rect	32,341,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
+				matcolor	0.564,0.203,0.286,0.4
+			}
+			windowDef main_b10_corner
+			{
+				rect	32,371,12,12
+				visible	1
+				background	"gfx/guis/mainmenu/corner"
 				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef main_t_b1
 			{
-				rect	44,214,314,23
+				rect	44,215,314,23
 				visible	1
 				forecolor	1,1,1,0.8
 				text	"#str_200000"
@@ -927,6 +967,15 @@ windowDef Desktop
 			{
 				rect	44,334,314,23
 				visible	1
+				forecolor	1,1,1,0.8
+				text	"#str_223010"
+				textscale	.33
+				font	"fonts/marine"
+			}
+			windowDef main_t_b10
+			{
+				rect	44,364,314,23
+				visible	1
 				forecolor	1,1,1,0
 				text	"#str_200005"
 				textscale	.33
@@ -944,28 +993,28 @@ windowDef Desktop
 				rect	32,408,9,9
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef main_b6_corner
 			{
 				rect	100,408,9,9
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef main_b7_corner
 			{
 				rect	192,408,9,9
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef main_b8_corner
 			{
 				rect	279,408,9,9
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef main_t_b5
 			{
@@ -1110,14 +1159,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef new_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef new_t_back
 			{
@@ -1142,7 +1191,7 @@ windowDef Desktop
 				rect	237,222,356,43
 				visible	1
 				background	"gfx/guis/mainmenu/b6_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef new_t_bstart
 			{
@@ -1158,7 +1207,7 @@ windowDef Desktop
 				rect	248,232,18,18
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 		}
 		windowDef p_savegame
@@ -1209,7 +1258,7 @@ windowDef Desktop
 				rect	406,389,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef save_t_b1
 			{
@@ -1225,14 +1274,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef save_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef save_t_back
 			{
@@ -1248,7 +1297,7 @@ windowDef Desktop
 				rect	35,75,570,6
 				visible	1
 				background	"gfx/guis/mainmenu/horiz_line2"
-				matcolor	0.545,0.588,0.294,0.26
+				matcolor	0.545,0.288,0.294,0.26
 			}
 			listDef savegamelist
 			{
@@ -1372,7 +1421,7 @@ windowDef Desktop
 						rect	180,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_savedel_t_yes
 					{
@@ -1388,14 +1437,14 @@ windowDef Desktop
 						rect	190,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_savedel_no
 					{
 						rect	338,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_savedel_t_no
 					{
@@ -1411,7 +1460,7 @@ windowDef Desktop
 						rect	348,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 				}
 			}
@@ -1481,7 +1530,7 @@ windowDef Desktop
 						rect	180,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_overwrite_t_yes
 					{
@@ -1497,14 +1546,14 @@ windowDef Desktop
 						rect	190,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_overwrite_no
 					{
 						rect	338,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_overwrite_t_no
 					{
@@ -1520,14 +1569,14 @@ windowDef Desktop
 						rect	348,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_overwrite_close
 					{
 						rect	180,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0
+						matcolor	0.545,0.288,0.294,0
 					}
 					windowDef pop_overwrite_t_close
 					{
@@ -1543,9 +1592,55 @@ windowDef Desktop
 						rect	190,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0
+						matcolor	0.564,0.203,0.286,0
 					}
 				}
+			}
+		}
+		windowDef p_aboutMod
+		{
+			rect	0,0,640,480
+			visible	0
+			windowDef t_aboutMod_title
+			{
+				rect	39,19,314,16
+				visible	1
+				forecolor	1,1,1,0
+				text	"#str_223010"
+				textscale	.25
+				font	"fonts/marine"
+			}
+			windowDef aboutMod_back
+			{
+				rect	532,441,109,30
+				visible	1
+				background	"gfx/guis/mainmenu/b4_light"
+				matcolor	0.545,0.288,0.294,0
+			}
+			windowDef aboutMod_back_corner
+			{
+				rect	542,449,11,11
+				visible	1
+				background	"gfx/guis/mainmenu/corner"
+				matcolor	0.564,0.203,0.286,0
+			}
+			windowDef aboutMod_t_back
+			{
+				rect	552,443,88,17
+				visible	1
+				forecolor	1,1,1,0
+				text	"#str_200018"
+				textscale	.28
+				font	"fonts/marine"
+			}
+			windowDef aboutMod_Text
+			{
+				rect	50,181,345,139
+				visible	1
+				forecolor	1,1,1,0.6
+				text	"#str_223011"
+				textscale	0.25
+				font	"fonts/lowpixel"
 			}
 		}
 		windowDef p_loadgame
@@ -1580,14 +1675,14 @@ windowDef Desktop
 				rect	29,275,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef load_b2_corner
 			{
 				rect	29,312,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef load_t_b1
 			{
@@ -1612,14 +1707,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef load_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef load_t_back
 			{
@@ -1653,7 +1748,7 @@ windowDef Desktop
 				rect	217,75,410,6
 				visible	1
 				background	"gfx/guis/mainmenu/horiz_line2"
-				matcolor	0.545,0.588,0.294,0.26
+				matcolor	0.545,0.288,0.294,0.26
 			}
 			listDef loadgamelist
 			{
@@ -1821,7 +1916,7 @@ windowDef Desktop
 						rect	180,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_loaddel_t_yes
 					{
@@ -1837,14 +1932,14 @@ windowDef Desktop
 						rect	190,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_loaddel_no
 					{
 						rect	338,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_loaddel_t_no
 					{
@@ -1860,7 +1955,7 @@ windowDef Desktop
 						rect	348,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 				}
 			}
@@ -1947,42 +2042,42 @@ windowDef Desktop
 				rect	32,188,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_b2_corner
 			{
 				rect	32,218,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_b3_corner
 			{
 				rect	32,248,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_b4_corner
 			{
 				rect	32,278,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_back
 			{
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef mp_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef mp_t_back
 			{
@@ -2003,7 +2098,7 @@ windowDef Desktop
 				rect	21,283,593,5
 				visible	1
 				background	"gfx/guis/mainmenu/horiz_line2"
-				matcolor	0.545,0.588,0.294,0.26
+				matcolor	0.545,0.288,0.294,0.26
 			}
 			windowDef mp_browse_loadbarbg
 			{
@@ -2038,14 +2133,14 @@ windowDef Desktop
 				rect	434,288,181,24
 				visible	1
 				background	"gfx/guis/mainmenu/b6_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_browse_clearSort_corner
 			{
 				rect	439,293,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_browse_t_clearSort
 			{
@@ -2178,7 +2273,7 @@ windowDef Desktop
 				rect	22,54,587,37
 				visible	1
 				background	"gfx/guis/mainmenu/header"
-				matcolor	0.545,0.588,0.294,0.6
+				matcolor	0.545,0.288,0.294,0.6
 			}
 			windowDef mp_browse_icon_favorite
 			{
@@ -2322,35 +2417,35 @@ windowDef Desktop
 				rect	28,344,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_browse_b2_corner
 			{
 				rect	28,372,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_browse_b3_corner
 			{
 				rect	28,400,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_browse_b5_corner
 			{
 				rect	28,428,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_browse_b6_corner
 			{
 				rect	394,407,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_browse_mod
 			{
@@ -2377,7 +2472,7 @@ windowDef Desktop
 				visible	1
 				background	"gfx/guis/common/32_sqsolid"
 				matcolor	0,0,0,0.4
-				rotate 90
+				rotate	90
 			}
 			windowDef mp_browse_filter_prev_mod
 			{
@@ -2385,7 +2480,7 @@ windowDef Desktop
 				visible	1
 				background	"gfx/guis/common/arrow6"
 				matcolor	1,0.501,0,0.8
-				rotate -90
+				rotate	-90
 			}
 			windowDef mp_browse_filter_next_mod_bg
 			{
@@ -2393,7 +2488,7 @@ windowDef Desktop
 				visible	1
 				background	"gfx/guis/common/32_sqsolid"
 				matcolor	0,0,0,0.4
-				rotate 90
+				rotate	90
 			}
 			windowDef mp_browse_filter_next_mod
 			{
@@ -2401,7 +2496,7 @@ windowDef Desktop
 				visible	1
 				background	"gfx/guis/common/arrow6"
 				matcolor	1,0.501,0,0.8
-				rotate 90
+				rotate	90
 			}
 			windowDef mp_browse_source
 			{
@@ -2531,14 +2626,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef mp_browse_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef mp_browse_t_back
 			{
@@ -2564,7 +2659,7 @@ windowDef Desktop
 				rect	257,428,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_browse_uparrow_bg
 			{
@@ -2688,14 +2783,14 @@ windowDef Desktop
 					rect	86,29,6,150
 					visible	1
 					background	"gfx/guis/mainmenu/vert_line2"
-					matcolor	0.545,0.588,0.294,0.32
+					matcolor	0.545,0.288,0.294,0.32
 				}
 				windowDef mp_browse_ttip_hline1
 				{
 					rect	7,21,245,6
 					visible	1
 					background	"gfx/guis/mainmenu/horiz_line2"
-					matcolor	0.545,0.588,0.294,0.32
+					matcolor	0.545,0.288,0.294,0.32
 				}
 			}
 			windowDef p_mp_browse_sortTooltip
@@ -2786,7 +2881,7 @@ windowDef Desktop
 						rect	182,220,277,34
 						visible	1
 						background	"gfx/guis/mainmenu/b6_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					editDef pop_fpc_name
 					{
@@ -2865,7 +2960,7 @@ windowDef Desktop
 						rect	180,266,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_fpc_t_search
 					{
@@ -2881,14 +2976,14 @@ windowDef Desktop
 						rect	190,274,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_fpc_cancel
 					{
 						rect	337,266,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_fpc_t_cancel
 					{
@@ -2904,7 +2999,7 @@ windowDef Desktop
 						rect	347,274,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 				}
 			}
@@ -3003,21 +3098,21 @@ windowDef Desktop
 				rect	22,53,587,37
 				visible	1
 				background	"gfx/guis/mainmenu/header"
-				matcolor	0.545,0.588,0.294,0.6
+				matcolor	0.545,0.288,0.294,0.6
 			}
 			windowDef mp_friends_back
 			{
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef mp_friends_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef mp_friends_t_back
 			{
@@ -3033,7 +3128,7 @@ windowDef Desktop
 				rect	22,350,593,5
 				visible	1
 				background	"gfx/guis/mainmenu/horiz_line2"
-				matcolor	0.545,0.588,0.294,0.26
+				matcolor	0.545,0.288,0.294,0.26
 			}
 			windowDef mp_friends_b1
 			{
@@ -3079,7 +3174,7 @@ windowDef Desktop
 				rect	29,404,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef p_mp_friends_tooltip
 			{
@@ -3174,14 +3269,14 @@ windowDef Desktop
 					rect	86,29,6,150
 					visible	1
 					background	"gfx/guis/mainmenu/vert_line2"
-					matcolor	0.545,0.588,0.294,0.32
+					matcolor	0.545,0.288,0.294,0.32
 				}
 				windowDef mp_friends_ttip_hline1
 				{
 					rect	7,21,245,6
 					visible	1
 					background	"gfx/guis/mainmenu/horiz_line2"
-					matcolor	0.545,0.588,0.294,0.32
+					matcolor	0.545,0.288,0.294,0.32
 				}
 			}
 			windowDef mp_friends_loadbarbg
@@ -3220,9 +3315,9 @@ windowDef Desktop
 
 			onNamedEvent gametypeChange {
 				//DM 0 ; Tourney 1 ; Team DM 2 ; CTF 3 ; Arena CTF 4 ; DeadZone 5
-			
-				if ( "gui::currentGametype" == 0 ) { // DM = 0
 				
+				if ( "gui::currentGametype" == 0 ) { // DM = 0
+					
 					set "mp_create_val6::visible" "1" ;
 					set "mp_create_opt6::visible" "1" ;
 					set "mp_create_val6_ctf::visible" "0" ;
@@ -3245,7 +3340,7 @@ windowDef Desktop
 					set "mp_b_create_5::noevents" "1" ;
 					
 				} else if ( "gui::currentGametype" == 1 ) { // Tourney = 1
-							
+					
 					set "mp_create_val6::visible" "1" ;
 					set "mp_create_opt6::visible" "1" ;
 					set "mp_create_val6_ctf::visible" "0" ;
@@ -3268,7 +3363,7 @@ windowDef Desktop
 					set "mp_b_create_5::noevents" "1" ; // (Squirrel@Ritual) Fixed; Team DM and Tourney gametype #s were mixed up in some contexts previously
 					
 				} else if ( "gui::currentGametype" == 2 ) { // Team DM = 2
-				
+					
 					set "mp_create_val6::visible" "1" ;
 					set "mp_create_opt6::visible" "1" ;
 					set "mp_create_val6_ctf::visible" "0" ;
@@ -3291,7 +3386,7 @@ windowDef Desktop
 					set "mp_b_create_5::noevents" "0" ; // (Squirrel@Ritual) Fixed; Team DM and Tourney gametype #s were mixed up in some contexts previously
 					
 				} else if ( "gui::currentGametype" == 3 || "gui::currentGametype" == 4 ) { // CTF = 3, Arena CTF = 4
-						
+					
 					set "mp_create_val6::visible" "0" ;
 					set "mp_create_opt6::visible" "0" ;
 					set "mp_create_val6_ctf::visible" "1" ;
@@ -3352,91 +3447,91 @@ windowDef Desktop
 				rect	44,37,587,37
 				visible	1
 				background	"gfx/guis/mainmenu/header"
-				matcolor	0.545,0.588,0.294,0.6
+				matcolor	0.545,0.288,0.294,0.6
 			}
 			windowDef mp_create_b1
 			{
 				rect	228,73,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b2
 			{
 				rect	228,97,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b3
 			{
 				rect	228,121,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b4
 			{
 				rect	228,145,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b5
 			{
 				rect	228,169,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b6
 			{
 				rect	228,193,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b7
 			{
 				rect	228,217,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b8
 			{
 				rect	228,241,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b9
 			{
 				rect	228,265,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b10
 			{
 				rect	228,289,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b11
 			{
 				rect	228,313,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_b12
 			{
 				rect	228,337,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_mapsel
 			{
@@ -3678,7 +3773,7 @@ windowDef Desktop
 					set "cmd" "play main_menu_selection" ;
 				}
 
-			}			
+			}
 			windowDef mp_create_opt12_trn
 			{
 				rect	256,339,149,18
@@ -3882,14 +3977,14 @@ windowDef Desktop
 				rect	228,367,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_adv_corner
 			{
 				rect	251,373,12,12
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0.4
+				matcolor	0.564,0.203,0.286,0.4
 			}
 			windowDef mp_create_adv
 			{
@@ -3912,7 +4007,7 @@ windowDef Desktop
 				rect	244,397,275,37
 				visible	1
 				background	"gfx/guis/mainmenu/b6_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_create_server
 			{
@@ -3958,14 +4053,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef mp_create_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef mp_create_t_back
 			{
@@ -4033,98 +4128,98 @@ windowDef Desktop
 						rect	105,72,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b2
 					{
 						rect	105,96,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b3
 					{
 						rect	105,120,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b4
 					{
 						rect	105,144,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b5
 					{
 						rect	105,168,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b6
 					{
 						rect	105,192,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b7
 					{
 						rect	105,216,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b8
 					{
 						rect	105,240,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b9
 					{
 						rect	105,264,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b10
 					{
 						rect	105,384,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b11
 					{
 						rect	105,288,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b12
 					{
 						rect	105,312,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b13
 					{
 						rect	105,336,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_b14
 					{
 						rect	105,360,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_usepass
 					{
@@ -4230,7 +4325,7 @@ windowDef Desktop
 						rect	132,362,236,18
 						visible	1
 						forecolor	1,1,1,0.8
-						text	"#str_222000" // Squirrel@Ritual - Localized for 1.2 Patch
+						text	"#str_222000"
 						textscale	0.24
 						font	"fonts/lowpixel"
 					}
@@ -4457,7 +4552,7 @@ windowDef Desktop
 							set "cmd" "play main_menu_selection" ;
 						}
 
-					}					
+					}
 					windowDef pop_createAdv_t_banlist
 					{
 						rect	137,384,389,18
@@ -4472,14 +4567,14 @@ windowDef Desktop
 						rect	127,390,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_createAdv_close
 					{
 						rect	136,408,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_createAdv_t_close
 					{
@@ -4495,7 +4590,7 @@ windowDef Desktop
 						rect	159,414,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_createAdv_allowVoice
 					{
@@ -4592,7 +4687,7 @@ windowDef Desktop
 							rect	163,320,211,30
 							visible	1
 							background	"gfx/guis/mainmenu/b6_light"
-							matcolor	0.545,0.588,0.294,0.4
+							matcolor	0.545,0.288,0.294,0.4
 						}
 						windowDef pop_createAdv_banlist_t_1
 						{
@@ -4608,14 +4703,14 @@ windowDef Desktop
 							rect	169,328,11,11
 							visible	1
 							background	"gfx/guis/mainmenu/corner"
-							matcolor	0.564,0.603,0.286,0.4
+							matcolor	0.564,0.203,0.286,0.4
 						}
 						windowDef pop_createAdv_banlist_2
 						{
 							rect	374,320,120,30
 							visible	1
 							background	"gfx/guis/mainmenu/b4_light"
-							matcolor	0.545,0.588,0.294,0.4
+							matcolor	0.545,0.288,0.294,0.4
 						}
 						windowDef pop_createAdv_banlist_t_2
 						{
@@ -4631,7 +4726,7 @@ windowDef Desktop
 							rect	384,328,11,11
 							visible	1
 							background	"gfx/guis/mainmenu/corner"
-							matcolor	0.564,0.603,0.286,0.4
+							matcolor	0.564,0.203,0.286,0.4
 						}
 						windowDef pop_createAdv_banlist_name
 						{
@@ -4771,49 +4866,49 @@ windowDef Desktop
 				rect	36,168,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_set_b2
 			{
 				rect	36,192,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_set_b3
 			{
 				rect	36,216,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_set_b4
 			{
 				rect	36,240,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_set_b5
 			{
 				rect	36,264,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_set_b6
 			{
 				rect	36,288,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			windowDef mp_set_b7
 			{
 				rect	36,312,377,25
 				visible	1
 				background	"gfx/guis/mainmenu/b3_light"
-				matcolor	0.545,0.588,0.294,0.4
+				matcolor	0.545,0.288,0.294,0.4
 			}
 			editDef mp_set_name_val
 			{
@@ -5037,14 +5132,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef mp_set_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef mp_set_t_back
 			{
@@ -5378,14 +5473,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef set_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef set_t_back
 			{
@@ -5396,24 +5491,6 @@ windowDef Desktop
 				textscale	.28
 				font	"fonts/marine"
 			}
-/*
-			windowDef set_vidrestart
-			{
-				rect	14,391,208,51
-				visible	0
-				background	"gfx/guis/mainmenu/b2_dark"
-				matcolor	1,1,1,0.4
-			}
-			windowDef set_t_vidrestart
-			{
-				rect	31,403,214,23
-				visible	0
-				forecolor	1,1,1,0.8
-				text	"#str_200241"
-				textscale	.31
-				font	"fonts/marine"
-			}
-*/
 			windowDef p_settings_ctrls
 			{
 				rect	0,0,640,480
@@ -5439,91 +5516,91 @@ windowDef Desktop
 					rect	228,116,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b2
 				{
 					rect	228,140,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b3
 				{
 					rect	228,164,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b4
 				{
 					rect	228,188,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b5
 				{
 					rect	228,212,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b6
 				{
 					rect	228,236,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b7
 				{
 					rect	228,260,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b8
 				{
 					rect	228,284,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b9
 				{
 					rect	228,308,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b10
 				{
 					rect	228,332,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b11
 				{
 					rect	228,356,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b12
 				{
 					rect	228,380,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_b13
 				{
 					rect	228,404,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_ctrl_t_action
 				{
@@ -5989,7 +6066,7 @@ windowDef Desktop
 							set "cmd" "play main_menu_selection" ;
 						}
 
-					}					
+					}
 					windowDef set_ctrls_weap_blastergaunt
 					{
 						rect	260,119,189,18
@@ -6097,7 +6174,7 @@ windowDef Desktop
 						text	"#str_222014"
 						textscale	0.24
 						font	"fonts/lowpixel"
-					}					
+					}
 				}
 				windowDef p_set_ctrls_attk
 				{
@@ -6685,9 +6762,732 @@ windowDef Desktop
 					}
 				}
 			}
+			windowDef p_settings_game
+			{
+				rect	0,0,640,480
+				visible	0
+				windowDef set_game_freelook
+				{
+					rect	228,47,403,25
+					visible	1
+					windowDef set_game_freelook_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_freelook_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200133"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_freelook_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	in_freeLook
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+						choiceType	0
 
-#include "guis/menu/settings/game.gui"
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
 
+					}
+				}
+				windowDef set_game_autoreload
+				{
+					rect	228,71,403,25
+					visible	1
+					windowDef set_game_autoreload_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_autoreload_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200134"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_autoreload_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	ui_autoReload
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+						choiceType	0
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_autoswitch
+				{
+					rect	228,95,403,25
+					visible	1
+					windowDef set_game_autoswitch_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_autoswitch_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200135"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_autoswitch_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	ui_autoSwitch
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+						choiceType	0
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_showdecals
+				{
+					rect	228,119,403,25
+					visible	1
+					windowDef set_game_showdecals_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_showdecals_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200136"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_showdecals_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	g_decals
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+						choiceType	0
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_showgun
+				{
+					rect	228,143,403,25
+					visible	1
+					windowDef set_game_showgun_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_showgun_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200138"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_showgun_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	ui_showGun
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+						choiceType	0
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_gunXYZ
+				{
+					rect	228,167,403,25
+					visible	1
+					windowDef set_game_gunXYZ_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_gunXYZ_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_223007"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_gunXYZ_value
+					{
+						rect	240,3,162,18
+						visible	1
+						textscale	0.24
+						forecolor	1,0.745,0.137,0.8
+						gui	"g_gunXYZ"
+						font	"fonts/lowpixel"
+						choiceType	1
+						choices	"#str_223008"
+						values	"0;1;2"
+
+						onAction {
+							if ("gui::g_gunXYZ" == 0) {
+								consoleCMD "g_gunX 2";
+								consoleCMD "g_gunY 2";
+								consoleCMD "g_gunZ -2";
+								consoleCMD "g_weaponFovEffect 1";
+							} else if ("gui::g_gunXYZ" == 1) {
+								consoleCMD "g_gunX 2";
+								consoleCMD "g_gunY -5";
+								consoleCMD "g_gunZ -2";
+								consoleCMD "g_weaponFovEffect 1";
+							} else {
+								consoleCMD "g_gunX 0";
+								consoleCMD "g_gunY 0";
+								consoleCMD "g_gunZ 0";
+								consoleCMD "g_weaponFovEffect 1";
+							}
+							set "cmd" "play main_menu_selection" ; 
+						}
+
+					}
+				}
+				windowDef set_game_simpleitems
+				{
+					rect	228,191,403,25
+					visible	1
+					windowDef set_game_simpleitems_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_simpleitems_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_223000"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_simpleitems_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	g_simpleItems
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+						choiceType	0
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_forcemodel
+				{
+					rect	228,215,403,25
+					visible	1
+					windowDef set_game_forcemodel_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_forcemodel_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_223006"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_forcemodel_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						gui	"ui_proskins"
+						values	"0;1"
+						choiceType	1
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+
+						onAction {
+							if ("gui::ui_proskins" == "1")
+							{
+								consoleCMD "g_forceModel model_player_marine_helmeted_bright";
+								consoleCMD "g_forceMarineModel model_player_marine_helmeted_bright";
+								consoleCMD "g_forcestroggmodel model_player_tactical_transfer_bright";
+							} else	{
+								consoleCMD "g_forceModel null";
+								consoleCMD "g_forceMarineModel null";
+								consoleCMD "g_forcestroggmodel null";
+							}
+							set "cmd" "play main_menu_selection" ; 
+						}
+
+					}
+				}
+				windowDef set_game_mpitch
+				{
+					rect	228,239,403,25
+					visible	1
+					windowDef set_game_mpitch_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_mpitch_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200139"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_mpitch_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	m_pitch
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_200059"
+						values	"0.022;-0.022"
+						choiceType	1
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_msmooth
+				{
+					rect	228,263,377,25
+					visible	1
+					windowDef set_game_msmooth_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_msmooth_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200140"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					windowDef set_game_msmooth_slider_bg
+					{
+						rect	244,8,128,16
+						background	"gfx/guis/mainmenu/slider_bg"
+						matcolor	1,0.745,0.137,0.8
+						noevents	1
+						visible	1
+					}
+					sliderDef set_game_msmooth_slider_bar
+					{
+						rect	244,9,71,8
+						forecolor	1,0.745,0.137,0.8
+						matcolor	1,0.745,0.137,0.8
+						low	1
+						high	8
+						step	1
+						thumbShader	"gfx/guis/mainmenu/slider_bar"
+						cvar	m_smooth
+						visible	1
+					}
+					editDef set_game_msmooth_value
+					{
+						rect	322,4,100,18
+						visible	1
+						cvar	m_smooth
+						textscale	0.24
+						maxchars	1
+						forecolor	1,0.745,0.137,0.8
+						font	"fonts/lowpixel"
+
+						onEnter {
+							setfocus "mp_b_set_back" ;
+						}
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_msensitivity
+				{
+					rect	228,287,377,25
+					visible	1
+					windowDef set_game_msensitivity_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_msensitivity_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200141"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					windowDef set_game_msensitivity_slider_bg
+					{
+						rect	244,8,128,16
+						background	"gfx/guis/mainmenu/slider_bg"
+						matcolor	1,0.745,0.137,0.8
+						noevents	1
+						visible	1
+					}
+					sliderDef set_game_msensitivity_slider_bar
+					{
+						rect	244,9,71,8
+						forecolor	1,0.745,0.137,0.8
+						matcolor	1,0.745,0.137,0.8
+						low	1
+						high	8
+						step	1
+						thumbShader	"gfx/guis/mainmenu/slider_bar"
+						cvar	sensitivity
+						visible	1
+					}
+					editDef set_game_msensitivity_value
+					{
+						rect	322,4,100,18
+						visible	1
+						cvar	sensitivity
+						textscale	0.24
+						maxchars	1
+						forecolor	1,0.745,0.137,0.8
+						font	"fonts/lowpixel"
+
+						onEnter {
+							setfocus "mp_b_set_back" ;
+						}
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+					}
+				}
+				windowDef set_game_customxhair
+				{
+					rect	228,311,403,25
+					visible	1
+					windowDef set_game_customxhair_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_customxhair_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200307"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_customxhair_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						textscale	0.24
+						font	"fonts/lowpixel"
+						cvar	g_crosshairCustom
+						choices	"#str_200296"
+						choiceType	0
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+						onActionRelease {
+							if ( "gui::g_crosshairCustom" == 1 ) {
+								set "set_game_previewxhair_background::matcolor" "$desktop::corner" ;
+								set "set_game_previewxhair_description::forecolor" "$desktop::white_8" ;				
+								set "set_game_previewxhair::visible" "1" ;
+								set "set_game_previewxhair_hover::visible" "1" ;
+								set "set_game_previewxhair::noevents" "0" ;
+								set "set_game_previewxhair_hover::noevents" "0" ;
+							} else {
+								set "set_game_previewxhair_background::matcolor" "$desktop::grey1_4" ;
+								set "set_game_previewxhair_description::forecolor" "$desktop::white_4" ;				
+								set "set_game_previewxhair::visible" "1" ;
+								set "set_game_previewxhair_hover::visible" "0" ;
+								set "set_game_previewxhair::noevents" "1" ;
+								set "set_game_previewxhair_hover::noevents" "1" ;
+							}
+						}
+
+					}
+				}
+				windowDef set_game_previewxhair
+				{
+					rect	228,335,377,48
+					visible	1
+					windowDef set_game_previewxhair_background
+					{
+						rect	0,12,337,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_previewxhair_description
+					{
+						rect	31,15,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200308"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					windowDef set_game_previewxhair_size_16
+					{
+						rect	252,16,16,16
+						visible	0
+						background	"gui::crossImage"
+						matcolor	1,1,1,1
+					}
+					windowDef set_game_previewxhair_size_24
+					{
+						rect	248,12,24,24
+						visible	0
+						background	"gui::crossImage"
+						matcolor	1,1,1,1
+					}
+					windowDef set_game_previewxhair_size_32
+					{
+						rect	244,8,32,32
+						visible	0
+						background	"gui::crossImage"
+						matcolor	1,1,1,1
+					}
+					windowDef set_game_previewxhair_size_40
+					{
+						rect	240,4,40,40
+						visible	0
+						background	"gui::crossImage"
+						matcolor	1,1,1,1
+					}
+					windowDef set_game_previewxhair_size_48
+					{
+						rect	236,0,48,48
+						visible	0
+						background	"gui::crossImage"
+						matcolor	1,1,1,1
+					}
+				}
+				windowDef set_game_xhairsize
+				{
+					rect	228,383,377,25
+					visible	1
+					windowDef set_game_xhairsize_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_xhairsize_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_201010"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					choiceDef set_game_xhairsize_value
+					{
+						rect	240,3,162,18
+						visible	1
+						forecolor	1,0.745,0.137,0.8
+						cvar	g_crosshairSize
+						textscale	0.24
+						font	"fonts/lowpixel"
+						choices	"#str_201022"
+						choiceType	1
+						values	"16;24;32;40;48"
+						notime	1
+
+						onAction {
+							set "cmd" "play main_menu_selection" ;
+						}
+
+						onActionRelease {
+							resettime "set_game_xhairsize_value" "0" ;
+						}
+
+						onTime 0 {
+							set "cmd" "GetCVarValue g_crosshairSize cvar_g_crosshairSize" ;
+						}
+
+						onTime +50 {
+							namedevent "p_settings::crosshairSize" ;
+						}
+
+					}
+				}
+				windowDef set_game_xhaircolor
+				{
+					rect	228,408,377,25
+					visible	1
+					windowDef set_game_xhaircolor_background
+					{
+						rect	0,0,377,25
+						visible	1
+						background	"gfx/guis/mainmenu/b3_light"
+						matcolor	0.545,0.588,0.294,0.4
+					}
+					windowDef set_game_xhaircolor_description
+					{
+						rect	31,3,210,18
+						visible	1
+						forecolor	1,1,1,0.8
+						text	"#str_200299"
+						textscale	0.24
+						font	"fonts/lowpixel"
+					}
+					windowDef set_game_xhaircolor_xcolor0
+					{
+						rect	244,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	1,1,1,1
+					}
+					windowDef set_game_xhaircolor_xcolor1
+					{
+						rect	258,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	1,0,0,1
+					}
+					windowDef set_game_xhaircolor_xcolor2
+					{
+						rect	272,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	1,0.501,0,1
+					}
+					windowDef set_game_xhaircolor_xcolor3
+					{
+						rect	286,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	1,1,0,1
+					}
+					windowDef set_game_xhaircolor_xcolor4
+					{
+						rect	300,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	0,1,0,1
+					}
+					windowDef set_game_xhaircolor_xcolor5
+					{
+						rect	314,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	0,1,1,1
+					}
+					windowDef set_game_xhaircolor_xcolor6
+					{
+						rect	328,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	0,0,1,1
+					}
+					windowDef set_game_xhaircolor_xcolor7
+					{
+						rect	342,9,12,12
+						visible	1
+						background	"gfx/guis/common/32_sqsolid"
+						matcolor	1,0,0.501,1
+					}
+				}
+			}
 			windowDef p_settings_sys
 			{
 				rect	0,0,640,480
@@ -6706,35 +7506,35 @@ windowDef Desktop
 					rect	228,104,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_b2
 				{
 					rect	228,128,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_b3
 				{
 					rect	228,152,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_b4
 				{
 					rect	228,176,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_b5
 				{
 					rect	228,200,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_vidqual
 				{
@@ -6812,9 +7612,9 @@ windowDef Desktop
 
 					onActionRelease {
 						set "set_sys_notice::visible" "1" ;
-//						set "set_vidrestart::visible" "1" ;
-//						set "set_t_vidrestart::visible" "1" ;
-//						set "set_b_vidrestart::visible" "1" ;
+						//						set "set_vidrestart::visible" "1" ;
+						//						set "set_t_vidrestart::visible" "1" ;
+						//						set "set_b_vidrestart::visible" "1" ;
 						set "desktop::vidwarn" "1" ;
 					}
 
@@ -6842,9 +7642,9 @@ windowDef Desktop
 
 					onActionRelease {
 						set "set_sys_notice::visible" "1" ;
-//						set "set_vidrestart::visible" "1" ;
-//						set "set_t_vidrestart::visible" "1" ;
-//						set "set_b_vidrestart::visible" "1" ;
+						//						set "set_vidrestart::visible" "1" ;
+						//						set "set_t_vidrestart::visible" "1" ;
+						//						set "set_b_vidrestart::visible" "1" ;
 						set "desktop::vidwarn" "1" ;
 					}
 
@@ -6892,9 +7692,9 @@ windowDef Desktop
 
 					onActionRelease {
 						set "set_sys_notice::visible" "1" ;
-//						set "set_vidrestart::visible" "1" ;
-//						set "set_t_vidrestart::visible" "1" ;
-//						set "set_b_vidrestart::visible" "1" ;
+						//						set "set_vidrestart::visible" "1" ;
+						//						set "set_t_vidrestart::visible" "1" ;
+						//						set "set_b_vidrestart::visible" "1" ;
 						set "desktop::vidwarn" "1" ;
 					}
 
@@ -6927,9 +7727,9 @@ windowDef Desktop
 					onActionRelease {
 						set "cmd" "play main_menu_selection" ;
 						set "set_sys_notice::visible" "1" ;
-//						set "set_vidrestart::visible" "1" ;
-//						set "set_t_vidrestart::visible" "1" ;
-//						set "set_b_vidrestart::visible" "1" ;
+						//						set "set_vidrestart::visible" "1" ;
+						//						set "set_t_vidrestart::visible" "1" ;
+						//						set "set_b_vidrestart::visible" "1" ;
 						set "desktop::vidwarn" "1" ;
 						
 						if ("gui::r_aspectRatio" == 0) {
@@ -6975,9 +7775,9 @@ windowDef Desktop
 
 					onActionRelease {
 						set "set_sys_notice::visible" "1" ;
-//						set "set_vidrestart::visible" "1" ;
-//						set "set_t_vidrestart::visible" "1" ;
-//						set "set_b_vidrestart::visible" "1" ;
+						//						set "set_vidrestart::visible" "1" ;
+						//						set "set_t_vidrestart::visible" "1" ;
+						//						set "set_b_vidrestart::visible" "1" ;
 						set "desktop::vidwarn" "1" ;
 					}
 
@@ -7024,21 +7824,22 @@ windowDef Desktop
 					maxchars	1
 					forecolor	1,0.745,0.137,0.8
 					font	"fonts/lowpixel"
-			
+
 					onEnter {
 						setfocus "mp_b_set_back" ;
 					}
-			
+
 					onAction {
 						set "cmd" "play main_menu_selection" ;
 					}
+
 				}
 				windowDef set_sys_auto
 				{
 					rect	228,231,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_t_auto
 				{
@@ -7064,21 +7865,21 @@ windowDef Desktop
 					rect	251,237,12,12
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef set_sys_adv
 				{
 					rect	228,262,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_adv_corner
 				{
 					rect	251,268,12,12
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef set_sys_t_adv
 				{
@@ -7103,14 +7904,14 @@ windowDef Desktop
 					rect	228,332,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_b9
 				{
 					rect	228,366,377,25
 					visible	1
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_vol
 				{
@@ -7145,7 +7946,7 @@ windowDef Desktop
 						set "cmd" "play main_menu_selection" ;
 					}
 
-				}	
+				}
 				editDef set_sys_vol_value
 				{
 					rect	550,334,100,18
@@ -7155,21 +7956,22 @@ windowDef Desktop
 					maxchars	1
 					forecolor	1,0.745,0.137,0.8
 					font	"fonts/lowpixel"
-			
+
 					onEnter {
 						setfocus "mp_b_set_back" ;
 					}
-			
+
 					onAction {
 						set "cmd" "play main_menu_selection" ;
 					}
+
 				}
 				windowDef set_sys_b9_corner
 				{
 					rect	251,372,12,12
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef set_sys_t_b9
 				{
@@ -7185,14 +7987,14 @@ windowDef Desktop
 					rect	228,308,377,25
 					visible	0
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_b8
 				{
 					rect	228,332,377,25
 					visible	0
 					background	"gfx/guis/mainmenu/b3_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef set_sys_vol2
 				{
@@ -7233,7 +8035,6 @@ windowDef Desktop
 					rect	34,315,197,85
 					visible	0
 					forecolor	0.890,0.537,0,1*guitable_10_5[time*0.001]
-//					text	"#str_202038"
 					text	"#str_104137"
 					textscale	0.22
 					font	"fonts/lowpixel"
@@ -7339,7 +8140,7 @@ windowDef Desktop
 						rect	180,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_defaults_t_yes
 					{
@@ -7355,14 +8156,14 @@ windowDef Desktop
 						rect	190,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_defaults_no
 					{
 						rect	338,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_defaults_t_no
 					{
@@ -7378,7 +8179,7 @@ windowDef Desktop
 						rect	348,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 				}
 			}
@@ -7439,70 +8240,70 @@ windowDef Desktop
 						rect	115,116,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b2
 					{
 						rect	115,140,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b3
 					{
 						rect	115,164,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b4
 					{
 						rect	115,188,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b5
 					{
 						rect	115,212,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b6
 					{
 						rect	115,236,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b7
 					{
 						rect	115,260,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b8
 					{
 						rect	115,284,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b9
 					{
 						rect	115,308,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_b10
 					{
 						rect	115,332,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_hqsfx
 					{
@@ -7656,7 +8457,7 @@ windowDef Desktop
 						onActionRelease {
 							if ( "gui::r_forceAmbientOn" == 1 ) {
 								set "pop_b_setAdv_6::visible" "1" ;
-								set "pop_setAdv_b6::matcolor" "0.545,0.588,0.294,0.4" ;
+								set "pop_setAdv_b6::matcolor" "0.545,0.288,0.294,0.4" ;
 								set "pop_setAdv_ambientbr::forecolor" "1,1,1,0.8" ;
 								set "pop_setAdv_ambientbr_bg::matcolor" "1,0.745,0.137,0.8" ;
 								set "pop_setAdv_ambientbr_val::matcolor" "1,0.745,0.137,0.8" ;
@@ -7674,6 +8475,7 @@ windowDef Desktop
 								consolecmd "set r_forceAmbient 0" ;
 							}
 						}
+
 					}
 					windowDef pop_setAdv_ambientbr
 					{
@@ -7686,12 +8488,11 @@ windowDef Desktop
 					}
 					windowDef pop_setAdv_ambientbr_bg
 					{
-						rect	351,267,128,16  
+						rect	351,267,128,16
 						background	"gfx/guis/mainmenu/slider_bg"
-
 						matcolor	1,0.745,0.137,0.8
 						noevents	1
-						visible 1
+						visible	1
 					}
 					sliderDef pop_setAdv_ambientbr_val
 					{
@@ -7710,7 +8511,7 @@ windowDef Desktop
 							set "cmd" "play main_menu_selection" ; 
 						}
 
-					}						
+					}
 					editDef pop_setAdv_ambientbr_valnum
 					{
 						rect	428,262,100,18
@@ -7720,14 +8521,15 @@ windowDef Desktop
 						maxchars	1
 						forecolor	1,0.745,0.137,0.8
 						font	"fonts/lowpixel"
-				
+
 						onEnter {
 							setfocus "mp_b_set_back" ;
 						}
-			
+
 						onAction {
 							set "cmd" "play main_menu_selection" ;
 						}
+
 					}
 					windowDef pop_setAdv_vsync
 					{
@@ -7779,9 +8581,9 @@ windowDef Desktop
 							//set "pop_setAdv_notice::visible" "1" ;
 							set "cmd" "play main_menu_selection" ;
 							set "set_sys_notice::visible" "1" ;
-//							set "set_vidrestart::visible" "1" ;
-//							set "set_t_vidrestart::visible" "1" ;
-//							set "set_b_vidrestart::visible" "1" ;
+							//							set "set_vidrestart::visible" "1" ;
+							//							set "set_t_vidrestart::visible" "1" ;
+							//							set "set_b_vidrestart::visible" "1" ;
 							set "desktop::vidwarn" "1" ; 
 						}
 
@@ -7817,7 +8619,7 @@ windowDef Desktop
 						rect	167,380,351,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_t_close
 					{
@@ -7833,7 +8635,7 @@ windowDef Desktop
 						rect	191,386,12,12
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_setAdv_notice
 					{
@@ -7921,7 +8723,7 @@ windowDef Desktop
 						rect	180,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_auto_t_yes
 					{
@@ -7937,14 +8739,14 @@ windowDef Desktop
 						rect	190,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_auto_no
 					{
 						rect	338,251,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_auto_t_no
 					{
@@ -7960,7 +8762,7 @@ windowDef Desktop
 						rect	348,259,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 				}
 			}
@@ -8030,7 +8832,7 @@ windowDef Desktop
 						rect	180,261,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_ultrawarn_t_yes
 					{
@@ -8046,14 +8848,14 @@ windowDef Desktop
 						rect	190,269,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 					windowDef pop_ultrawarn_no
 					{
 						rect	338,261,120,30
 						visible	1
 						background	"gfx/guis/mainmenu/b4_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_ultrawarn_t_no
 					{
@@ -8069,7 +8871,7 @@ windowDef Desktop
 						rect	348,269,11,11
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.564,0.603,0.286,0.4
+						matcolor	0.564,0.203,0.286,0.4
 					}
 				}
 			}
@@ -8235,28 +9037,28 @@ windowDef Desktop
 						rect	115,185,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_set_sndAdv_b2
 					{
 						rect	115,209,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_set_sndAdv_b3
 					{
 						rect	115,233,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_set_sndAdv_b4
 					{
 						rect	115,257,377,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_set_sndAdv_system
 					{
@@ -8384,7 +9186,7 @@ windowDef Desktop
 						rect	141,300,351,25
 						visible	1
 						background	"gfx/guis/mainmenu/b3_light"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_set_sndAdv_t_close
 					{
@@ -8400,7 +9202,7 @@ windowDef Desktop
 						rect	165,306,12,12
 						visible	1
 						background	"gfx/guis/mainmenu/corner"
-						matcolor	0.545,0.588,0.294,0.4
+						matcolor	0.545,0.288,0.294,0.4
 					}
 					windowDef pop_set_sndAdv_driverWarn
 					{
@@ -8487,7 +9289,7 @@ windowDef Desktop
 					listname	"modsList"
 					font	"fonts/lowpixel"
 					visible	1
-					scrollbar 1
+					scrollbar	1
 					backgroundHover	"gfx/guis/mainmenu/bg_hover"
 					backgroundFocus	"gfx/guis/mainmenu/bg_focus"
 					backgroundLine	"gfx/guis/mainmenu/bg_line"
@@ -8498,7 +9300,7 @@ windowDef Desktop
 					rect	179,309,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_mods_t_loadmod
 				{
@@ -8514,14 +9316,14 @@ windowDef Desktop
 					rect	189,317,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef pop_mods_cancel
 				{
 					rect	350,309,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_mods_t_cancel
 				{
@@ -8537,7 +9339,7 @@ windowDef Desktop
 					rect	360,317,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 			}
 		}
@@ -8559,14 +9361,14 @@ windowDef Desktop
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
-				matcolor	0.545,0.588,0.294,0
+				matcolor	0.545,0.288,0.294,0
 			}
 			windowDef credits_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
-				matcolor	0.564,0.603,0.286,0
+				matcolor	0.564,0.203,0.286,0
 			}
 			windowDef credits_t_back
 			{
@@ -13987,7 +14789,7 @@ windowDef Desktop
 					
 					set "screen11_bar1::matcolor" "$desktop::cr_orange" ;
 					set "screen11_bar1::rect" "-276,76,276,23" ;
-							
+					
 					transition "screen11_ts_1::forecolor" "$desktop::cr_orange_0" "$desktop::cr_orange" "2000" ;
 					
 					transition "screen11_ns_2::forecolor" "$desktop::cr_green_0" "$desktop::cr_green" "500" ;
@@ -14442,7 +15244,7 @@ windowDef Desktop
 				onTime +50 {
 					transition "screen13_n_3::forecolor" "$desktop::white" "$desktop::cr_green" "500" ;
 				}
-//
+
 				onTime +200 {
 					transition "screen13_ns_4::forecolor" "$desktop::cr_green" "$desktop::cr_green_0" "500" ;
 					transition "screen13_n_4::forecolor" "$desktop::cr_green_0" "$desktop::white" "500" ;
@@ -14453,7 +15255,7 @@ windowDef Desktop
 				onTime +50 {
 					transition "screen13_n_4::forecolor" "$desktop::white" "$desktop::cr_green" "500" ;
 				}
-				
+
 				onTime +200 {
 					transition "screen13_ns_5::forecolor" "$desktop::cr_green" "$desktop::cr_green_0" "500" ;
 					transition "screen13_n_5::forecolor" "$desktop::cr_green_0" "$desktop::white" "500" ;
@@ -14464,7 +15266,7 @@ windowDef Desktop
 				onTime +50 {
 					transition "screen13_n_5::forecolor" "$desktop::white" "$desktop::cr_green" "500" ;
 				}
-				
+
 				onTime +200 {
 					transition "screen13_ns_6::forecolor" "$desktop::cr_green" "$desktop::cr_green_0" "500" ;
 					transition "screen13_n_6::forecolor" "$desktop::cr_green_0" "$desktop::white" "500" ;
@@ -14475,7 +15277,7 @@ windowDef Desktop
 				onTime +50 {
 					transition "screen13_n_6::forecolor" "$desktop::white" "$desktop::cr_green" "500" ;
 				}
-				
+
 				onTime +200 {
 					transition "screen13_ns_7::forecolor" "$desktop::cr_green" "$desktop::cr_green_0" "500" ;
 					transition "screen13_n_7::forecolor" "$desktop::cr_green_0" "$desktop::white" "500" ;
@@ -14486,7 +15288,7 @@ windowDef Desktop
 				onTime +50 {
 					transition "screen13_n_7::forecolor" "$desktop::white" "$desktop::cr_green" "500" ;
 				}
-//
+
 				onTime +200 {
 					transition "screen13_ns_1::forecolor" "$desktop::white_6" "$desktop::white_0" "500" ;
 					transition "screen13_n_1::forecolor" "$desktop::white_0" "$desktop::white" "500" ;
@@ -14559,7 +15361,7 @@ windowDef Desktop
 					text	"Special Thanks"
 					textscale	0.4
 					font	"fonts/strogg"
-				}				
+				}
 				windowDef screen13_n_2
 				{
 					rect	122,125,379,30
@@ -14596,7 +15398,6 @@ windowDef Desktop
 					textscale	0.51
 					font	"fonts/strogg"
 				}
-				
 				windowDef screen13_n_5
 				{
 					rect	122,200,379,30
@@ -14632,7 +15433,7 @@ windowDef Desktop
 					text	"Eric Fowler - Ritual code"
 					textscale	0.51
 					font	"fonts/strogg"
-				}				
+				}
 				windowDef screen13_n_7
 				{
 					rect	122,250,379,30
@@ -14650,7 +15451,7 @@ windowDef Desktop
 					text	"Todd Rose - Ritual levels"
 					textscale	0.51
 					font	"fonts/strogg"
-				}				
+				}
 				windowDef screen13_n_4
 				{
 					rect	122,175,379,30
@@ -14668,8 +15469,7 @@ windowDef Desktop
 					text	"Jason Kim - id Software"
 					textscale	0.51
 					font	"fonts/strogg"
-				}				
-				
+				}
 				windowDef screen13_bar1
 				{
 					rect	-250,102,250,23
@@ -14752,7 +15552,7 @@ windowDef Desktop
 					rect	180,251,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_exit_t_yes
 				{
@@ -14768,14 +15568,14 @@ windowDef Desktop
 					rect	190,259,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef pop_exit_no
 				{
 					rect	338,251,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_exit_t_no
 				{
@@ -14791,7 +15591,7 @@ windowDef Desktop
 					rect	348,259,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 			}
 		}
@@ -14852,7 +15652,7 @@ windowDef Desktop
 					rect	180,225,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_joinIp_t_connect
 				{
@@ -14868,14 +15668,14 @@ windowDef Desktop
 					rect	190,233,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef pop_joinIp_cancel
 				{
 					rect	338,225,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_joinIp_t_cancel
 				{
@@ -14891,14 +15691,14 @@ windowDef Desktop
 					rect	348,233,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef pop_joinIp_addressbg
 				{
 					rect	182,183,292,35
 					visible	1
 					background	"gfx/guis/mainmenu/b6_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				editDef pop_joinIp_address
 				{
@@ -15036,7 +15836,7 @@ windowDef Desktop
 					rect	180,251,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_disc_t_yes
 				{
@@ -15052,14 +15852,14 @@ windowDef Desktop
 					rect	190,259,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 				windowDef pop_disc_no
 				{
 					rect	338,251,120,30
 					visible	1
 					background	"gfx/guis/mainmenu/b4_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_disc_t_no
 				{
@@ -15075,7 +15875,7 @@ windowDef Desktop
 					rect	348,259,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 			}
 		}
@@ -15136,7 +15936,6 @@ windowDef Desktop
 					rect	182,190,260,51
 					visible	1
 					forecolor	0.890,0.537,0,1*guitable_10_5[time*0.001]
-//					text	"#str_202038"
 					text	"#str_104137"
 					textscale	0.24
 					font	"fonts/lowpixel"
@@ -15146,14 +15945,13 @@ windowDef Desktop
 					rect	182,251,220,25
 					visible	1
 					background	"gfx/guis/mainmenu/b6_light"
-					matcolor	0.545,0.588,0.294,0.4
+					matcolor	0.545,0.288,0.294,0.4
 				}
 				windowDef pop_vidwarn_t_close
 				{
 					rect	198,251,256,21
 					visible	1
 					forecolor	1,1,1,0.8
-//					text	"#str_200241"
 					text	"#str_104339"
 					textscale	.28
 					font	"fonts/marine"
@@ -15163,7 +15961,7 @@ windowDef Desktop
 					rect	189,257,11,11
 					visible	1
 					background	"gfx/guis/mainmenu/corner"
-					matcolor	0.564,0.603,0.286,0.4
+					matcolor	0.564,0.203,0.286,0.4
 				}
 			}
 		}
@@ -15244,6 +16042,7 @@ windowDef Desktop
 				set "video_raven::notime" "1" ;
 				resettime "video_bethsoft" "0" ;
 			}
+
 		}
 		windowDef video_bethsoft
 		{
@@ -15272,7 +16071,7 @@ windowDef Desktop
 				set "video_id::visible" "0" ;
 				set "video_raven::visible" "0" ;
 				set "video_bethsoft::visible" "0" ;
-
+				
 				showcursor "1" ;
 				resetTime "anim_in" "0" ;
 				namedevent "desktop::ingameCheck" ;
@@ -15283,6 +16082,7 @@ windowDef Desktop
 				resetTime "videoBlack" "0" ;
 				resetTime "menuMusic" "0" ;
 			}
+
 		}
 	}
 	windowDef p_anims
@@ -15334,9 +16134,14 @@ windowDef Desktop
 			set "main_t_b8::forecolor"  "$desktop::white_0" ; 
 			set "main_b8_corner::matcolor" "$desktop::corner_0" ;
 			set "main_t_b8::textscale" "0.22" ;  
+			set "main_b9::matcolor_w" "0" ;
 			set "main_t_b9::forecolor"  "$desktop::white_0" ; 
 			set "main_b9_corner::matcolor" "$desktop::corner_0" ;
 			set "main_t_b9::textscale" "0.33" ;
+			set "main_b10:matcolor_w" "0" ;
+			set "main_t_b10::forecolor"  "$desktop::white_0" ; 
+			set "main_b10_corner::matcolor" "$desktop::corner_0" ;
+			set "main_t_b10::textscale" "0.33" ;
 		}
 
 		onNamedEvent mainReset {
@@ -15368,10 +16173,10 @@ windowDef Desktop
 				set "main_t_b7::forecolor"  "$desktop::white_0" ; 
 				set "main_b7_corner::matcolor" "$desktop::corner_0" ;
 				set "main_t_b7::textscale" "0.22" ; 
-				set "main_b9::matcolor" "$desktop::white_4" ;
-				set "main_t_b9::forecolor"  "$desktop::white_8" ; 
-				set "main_b9_corner::matcolor" "$desktop::corner" ;
-				set "main_t_b9::textscale" "0.33" ; 
+				set "main_b10::matcolor" "$desktop::white_4" ;
+				set "main_t_b10::forecolor"  "$desktop::white_8" ; 
+				set "main_b10_corner::matcolor" "$desktop::corner" ;
+				set "main_t_b10::textscale" "0.33" ; 
 				set "main_b3::matcolor" "$desktop::white_4" ;
 				set "main_t_b3::forecolor"  "$desktop::white_8" ; 
 				set "main_b3_corner::matcolor" "$desktop::corner" ;
@@ -15410,7 +16215,11 @@ windowDef Desktop
 			set "main_t_b4::textscale" "0.33" ; 
 			set "main_t_b8::forecolor"  "$desktop::white_5" ; 
 			set "main_b8_corner::matcolor" "$desktop::corner" ;
-			set "main_t_b8::textscale" "0.22" ; 
+			set "main_t_b8::textscale" "0.22" ;
+			set "main_b9::matcolor" "$desktop::white_4" ;
+			set "main_t_b9::forecolor"  "$desktop::white_8" ; 
+			set "main_b9_corner::matcolor" "$desktop::corner" ;
+			set "main_t_b9::textscale" "0.33" ; 			
 		}
 
 		onNamedEvent setReset {
@@ -15511,6 +16320,10 @@ windowDef Desktop
 			set "save_t_back::forecolor"  "$desktop::white_0" ; 
 			set "save_back_corner::matcolor" "$desktop::corner_0" ;
 			set "save_t_back::textscale" "0.28" ; 
+			set "aboutMod_back::matcolor_w" "0" ;
+			set "aboutMod_t_back::forecolor"  "$desktop::white_0" ; 
+			set "aboutMod_back_corner::matcolor" "$desktop::corner_0" ;
+			set "aboutMod_t_back::textscale" "0.28" ; 
 		}
 
 		onNamedEvent popReset0 {
@@ -15820,6 +16633,9 @@ windowDef Desktop
 				transition "main_b4_corner::matcolor_w"  "0" "0.4" "150" ;
 				transition "main_t_b8::forecolor_w"  "0" "0.5" "150" ; 
 				transition "main_b8_corner::matcolor_w"  "0" "0.4" "150" ; 
+				transition "main_b9::matcolor_w" "0" "0.4" "150" ;
+				transition "main_t_b9::forecolor_w"  "0" "0.8" "150" ; 
+				transition "main_b9_corner::matcolor_w"  "0" "0.4" "150" ;
 				
 				transition "main_motd::forecolor_w"  "0" "0.8" "150" ; 
 				
@@ -15831,9 +16647,9 @@ windowDef Desktop
 					//transition "main_b3::matcolor_w" "0" "0.4" "150" ;
 					//transition "main_t_b3::forecolor_w"  "0" "0.8" "150" ; 
 					//transition "main_b3_corner::matcolor_w"  "0" "0.4" "150" ;
-					transition "main_b9::matcolor_w" "0" "0.4" "150" ;
-					transition "main_t_b9::forecolor_w"  "0" "0.8" "150" ; 
-					transition "main_b9_corner::matcolor_w"  "0" "0.4" "150" ;
+					transition "main_b10::matcolor_w" "0" "0.4" "150" ;
+					transition "main_t_b10::forecolor_w"  "0" "0.8" "150" ; 
+					transition "main_b10_corner::matcolor_w"  "0" "0.4" "150" ;
 					
 					set "main_t_b1::text" "#str_200003" ;
 					set "main_t_b2::text" "#str_200001" ;
@@ -15899,6 +16715,7 @@ windowDef Desktop
 				stoptransitions "main_b_updates" ;
 				stoptransitions "main_b_credits" ;
 				stoptransitions "main_b_exit" ;
+				stoptransitions "main_b_aboutMod" ;
 				
 				transition "main_b1::matcolor_w" "0.4" "0" "250" ;
 				transition "main_t_b1::forecolor_w"  "0.8" "0" "250" ; 
@@ -15914,6 +16731,10 @@ windowDef Desktop
 				transition "main_b4_corner::matcolor_w"  "0.4" "0" "250" ;
 				transition "main_t_b8::forecolor_w"  "0.5" "0" "50" ; 
 				transition "main_b8_corner::matcolor_w"  "0.4" "0" "50" ;
+				transition "main_b9::matcolor_w" "0.4" "0" "250" ;
+				transition "main_t_b9::forecolor_w"  "0.8" "0" "250" ; 
+				transition "main_b9_corner::matcolor_w"  "0.4" "0" "250" ;
+				
 				
 				transition "main_motd::forecolor_w"  "0.8" "0" "250" ; 
 				
@@ -15923,9 +16744,9 @@ windowDef Desktop
 					//transition "main_b3::matcolor_w" "0.4" "0" "250" ;
 					//transition "main_t_b3::forecolor_w"  "0.8" "0" "250" ; 
 					//transition "main_b3_corner::matcolor_w"  "0.4" "0" "250" ;
-					transition "main_b9::matcolor_w" "0.4" "0" "250" ;
-					transition "main_t_b9::forecolor_w"  "0.8" "0" "250" ; 
-					transition "main_b9_corner::matcolor_w"  "0.4" "0" "250" ;
+					transition "main_b10::matcolor_w" "0.4" "0" "250" ;
+					transition "main_t_b10::forecolor_w"  "0.8" "0" "250" ; 
+					transition "main_b10_corner::matcolor_w"  "0.4" "0" "250" ;
 				} else	if ("gui::ingame" == 2) {	
 					transition "main_t_b5::forecolor_w"  "0.5" "0" "50" ; 
 					transition "main_b5_corner::matcolor_w"  "0.4" "0" "50" ; 
@@ -15986,6 +16807,9 @@ windowDef Desktop
 					namedevent "p_anims::backReset0" ;
 				} else if ("desktop::dest" == 14) {
 					resettime "anim_mpBrowseIn" "0" ;
+					namedevent "p_anims::backReset0" ;
+				} else if ("desktop::dest" == 36) {
+					resettime "anim_aboutModIn" "0" ;
 					namedevent "p_anims::backReset0" ;
 				}
 			}
@@ -16755,6 +17579,67 @@ windowDef Desktop
 			}
 
 		}
+		windowDef anim_aboutModIn
+		{
+			rect	0,0,1,1
+			visible	1
+			notime	1
+
+			onTime 0 {
+				transition "p_aboutMod::rect" "$d_main_l::rect" "$d_main::rect" "0" ;
+				set "p_aboutMod::visible" "1" ;
+				transition "t_aboutMod_title::forecolor_w" "0" "0.5" "150" ;
+				transition "grad7::matcolor_w" "0" "0.6" "150" ;
+				transition "screen2::matcolor" "$desktop::black" "0.4,0.4,0.4,1" "150" ;
+				
+				// back aboutMod
+				transition "aboutMod_back::matcolor_w" "0" "0.4" "150" ;
+				transition "aboutMod_t_back::forecolor_w"  "0" "0.8" "150" ; 
+				transition "aboutMod_back_corner::matcolor_w"  "0" "0.4" "150" ;
+			}
+
+			onTime +150 {
+				set "desktop::active" "0" ;
+				namedevent "p_btns::showAboutMod" ;
+				set "desktop::curr" "36" ;
+			}
+
+		}
+		windowDef anim_aboutModOut
+		{
+			rect	0,0,1,1
+			visible	1
+			notime	1
+
+			onTime 0 {
+				namedevent "p_btns::hideAboutMod" ;
+				
+				transition "p_main::rect" "$d_main_r::rect" "$d_main::rect" "0" ;
+				transition "p_aboutMod::rect" "$d_main::rect" "$d_main_l::rect" "300" ;
+				
+				transition "topbar::rect"  "$d_topbar::rect"  "$topbar::rect" "500" "150" "150" ;
+				transition "btmbar::rect"  "$d_btmbar::rect"  "$btmbar::rect" "500" "150" "150" ;
+				
+				
+				// transitions
+				transition "t_aboutMod_title::forecolor_w" "0.5" "0" "0" ;
+				transition "grad7::matcolor_w" "0.6" "0" "250" ;
+				transition "screen2::matcolor" "0.4,0.4,0.4,1" "$desktop::black" "250" ;	
+				
+				
+				// back button	
+				transition "aboutMod_back::matcolor_w" "0.8" "0" "100" ;
+				transition "aboutMod_t_back::forecolor_w"  "1" "0" "100" ; 
+				transition "aboutMod_back_corner::matcolor_w"  "1" "0" "100" ; 
+			}
+
+			onTime +500 {
+				set "p_aboutMod::visible" "0" ;
+				
+				resettime "anim_mainIn" "0" ;
+				namedevent "p_anims::mainReset0" ;
+			}
+		}
 		windowDef anim_mpCreateIn
 		{
 			rect	0,0,1,1
@@ -17449,6 +18334,10 @@ windowDef Desktop
 				transition "main_b7_corner::matcolor_w"  "0" "0.4" "0" ;
 				transition "main_t_b8::forecolor_w"  "0" "0.5" "0" ; 
 				transition "main_b8_corner::matcolor_w"  "0" "0.4" "0" ; 
+				
+				transition "main_b9::matcolor_w" "0" "0.4" "0" ;
+				transition "main_t_b9::forecolor_w"  "0" "0.8" "0" ; 
+				transition "main_b9_corner::matcolor_w"  "0" "0.4" "0" ;
 				
 				transition "bg2::matcolor_w"  "0" "0.3" "0" ; 	
 				if ("gui::ingame" == 1) {
@@ -18271,6 +19160,7 @@ windowDef Desktop
 				set "main_b_mods::visible" "1" ;
 				set "main_b_updates::visible" "1" ;
 				set "main_b_credits::visible" "1" ;
+				set "main_b_aboutMod::visible" "1" ;
 			} else if ("gui::ingame" == 1) {
 				set "main_b_returnmp::visible" "0" ;
 				set "main_b_newgame::visible" "0" ;
@@ -18282,6 +19172,7 @@ windowDef Desktop
 				set "main_b_mods::visible" "0" ;
 				set "main_b_updates::visible" "0" ;
 				set "main_b_credits::visible" "0" ;
+				set "main_b_aboutMod::visible" "1" ;
 			} else if ("gui::ingame" == 2) {
 				set "main_b_returnmp::visible" "1" ;
 				set "main_b_newgame::visible" "0" ;
@@ -18293,6 +19184,7 @@ windowDef Desktop
 				set "main_b_mods::visible" "1" ;
 				set "main_b_updates::visible" "1" ;
 				set "main_b_credits::visible" "1" ;
+				set "main_b_aboutMod::visible" "0" ;
 			} 
 			set "main_b_loadgame::visible" "1" ;
 			set "main_b_settings::visible" "1" ;
@@ -18313,6 +19205,7 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "0" ;
 			set "main_b_settings::visible" "0" ;
 			set "main_b_exit::visible" "0" ;
+			set "main_b_aboutMod::visible" "0" ;
 		}
 
 		onNamedEvent showSet {
@@ -18634,8 +19527,8 @@ windowDef Desktop
 			set "set_game_previewxhair::noevents" "0" ;
 			set "set_game_xhairsize::noevents" "0" ;
 			set "set_game_xhaircolor::noevents" "0" ;
-	
-
+			
+			
 		}
 
 		onNamedEvent hideSetGameOptions {
@@ -19054,6 +19947,14 @@ windowDef Desktop
 			set "p_set_ctrls_weap::visible" "0" ;
 			set "p_set_ctrls_other::visible" "0" ;
 		}
+		
+		onNamedEvent showAboutMod {
+			set "aboutMod__b_back::visible" "1" ;
+		}
+
+		onNamedEvent hideAboutMod {
+			set "aboutMod_b_back::visible" "0" ;
+		}
 
 		onNamedEvent showPop_exit {
 			set "pop_b_exit_yes::visible" "1" ;
@@ -19167,7 +20068,7 @@ windowDef Desktop
 			if ("gui::r_forceAmbient" > 0) {
 				set "pop_b_setAdv_6::visible" "1" ;
 				set "gui::r_forceAmbientOn" "1" ;
-				set "pop_setAdv_b6::matcolor" "0.545,0.588,0.294,0.4" ;
+				set "pop_setAdv_b6::matcolor" "0.545,0.288,0.294,0.4" ;
 				set "pop_setAdv_ambientbr::forecolor" "1,1,1,0.8" ;
 				set "pop_setAdv_ambientbr_bg::matcolor" "1,0.745,0.137,0.8" ;
 				set "pop_setAdv_ambientbr_val::matcolor" "1,0.745,0.137,0.8" ;
@@ -19555,14 +20456,14 @@ windowDef Desktop
 			}
 
 		}
-		windowDef main_b_return
+		windowDef main_b_aboutMod
 		{
 			rect	24,334,333,26
-			visible	0
+			visible	1
 
 			onMouseEnter {
 				if ("desktop::active" == 0) {
-					stoptransitions "main_b_return" ;
+					stoptransitions "main_b_aboutMod" ;
 					
 					set "main_b9::matcolor_w" "0.8" ;
 					transition "main_t_b9::forecolor" "$desktop::white_8" "$desktop::orange" "0" ; 
@@ -19571,7 +20472,6 @@ windowDef Desktop
 					set "main_t_b9::textscale" "0.34" ; 
 					
 					set "cmd" "play main_menu_mouseover" ;
-				}
 			}
 
 			onMouseExit {
@@ -19581,6 +20481,44 @@ windowDef Desktop
 					transition "main_b9_corner::matcolor"  "$desktop::orange" "$desktop::corner" "300" ;
 					
 					transition "main_t_b9::textscale" "0.34" "0.33" "300" ; 
+				}
+			}
+
+			onAction {
+				set "desktop::active" "1" ;
+				resettime "anim_mainOut" "0" ;
+				set "desktop::dest" "36" ;
+				
+				set "cmd" "play main_menu_selection" ;
+			}
+
+		}
+		windowDef main_b_return
+		{
+			rect	24,364,333,26
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "main_b_return" ;
+					
+					set "main_b10::matcolor_w" "0.8" ;
+					transition "main_t_b10::forecolor" "$desktop::white_8" "$desktop::orange" "0" ; 
+					transition "main_b10_corner::matcolor" "$desktop::corner" "$desktop::orange" "0" ; 
+					
+					set "main_t_b10::textscale" "0.34" ; 
+					
+					set "cmd" "play main_menu_mouseover" ;
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "main_b10::matcolor_w" "0.8" "0.4" "300" ;
+					transition "main_t_b10::forecolor"  "$desktop::orange" "$desktop::white_8" "300" ; 
+					transition "main_b10_corner::matcolor"  "$desktop::orange" "$desktop::corner" "300" ;
+					
+					transition "main_t_b10::textscale" "0.34" "0.33" "300" ; 
 				}
 			}
 
@@ -20410,47 +21348,6 @@ windowDef Desktop
 			}
 
 		}
-/*
-		windowDef set_b_vidrestart
-		{
-			rect	18,403,205,25
-			visible	0
-
-			onMouseEnter {
-				if ("desktop::active" == 0) {
-					stoptransitions "set_b_vidrestart" ;
-					
-					set "set_vidrestart::matcolor_w" "1" ;
-					transition "set_t_vidrestart::forecolor" "$desktop::white_8" "$desktop::orange" "0" ; 
-					
-					set "set_t_vidrestart::textscale" "0.32" ; 
-					
-					set "cmd" "play main_menu_mouseover" ;	
-				}
-			}
-
-			onMouseExit {
-				if ("desktop::active" == 0) {
-					transition "set_vidrestart::matcolor_w" "1" "0.4" "300" ;
-					transition "set_t_vidrestart::forecolor"  "$desktop::orange" "$desktop::white_8" "300" ; 
-					
-					transition "set_t_vidrestart::textscale" "0.32" "0.31" "300" ;
-				}
-			}
-
-			onAction {	
-				set "set_sys_notice::visible" "0" ;
-				set "set_vidrestart::visible" "0" ;
-				set "set_t_vidrestart::visible" "0" ;
-				set "set_b_vidrestart::visible" "0" ;
-				set "desktop::vidwarn" "0" ;
-				
-				set "cmd" "play main_menu_selection" ;
-				consolecmd "vid_restart" ;
-			}
-
-		}
-*/
 		windowDef set_b_back
 		{
 			rect	536,444,105,23
@@ -21048,9 +21945,561 @@ windowDef Desktop
 			}
 
 		}
+		windowDef set_game_freelook_hover
+		{
+			rect	245,49,361,20
+			visible	0
 
-#include "guis/menu/settings/game_hovers.gui"
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_freelook_background" ;
+					
+					set "set_game_freelook_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
 
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_freelook_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_autoreload_hover
+		{
+			rect	245,73,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_autoreload_background" ;
+					
+					set "set_game_autoreload_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_autoreload_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_autoswitch_hover
+		{
+			rect	245,97,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_autoswitch_background" ;
+					
+					set "set_game_autoswitch_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_autoswitch_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_showdecals_hover
+		{
+			rect	245,121,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_showdecals_background_4" ;
+					
+					set "set_game_showdecals_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_showdecals_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_showgun_hover
+		{
+			rect	245,145,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_showgun_background" ;
+					
+					set "set_game_showgun_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_showgun_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_gunXYZ_hover
+		{
+			rect	245,169,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_gunXYZ_background" ;
+					set "set_game_gunXYZ_background::matcolor_w" "1" ;
+					set "cmd" "play main_menu_mouseover" ;
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_gunXYZ_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_simpleitems_hover
+		{
+			rect	245,193,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_simpleitems_background" ;
+					set "set_game_simpleitems_background::matcolor_w" "1" ;
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_simpleitems_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_forcemodel_hover
+		{
+			rect	245,217,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_forcemodel_background" ;
+					set "set_game_forcemodel_background::matcolor_w" "1" ;
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_forcemodel_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_mpitch_hover
+		{
+			rect	245,241,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_mpitch_background" ;
+					set "set_game_mpitch_background::matcolor_w" "1" ;
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_mpitch_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_msmooth_hover
+		{
+			rect	245,265,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_msmooth_background8" ;
+					set "set_game_msmooth_background::matcolor_w" "1" ;
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_msmooth_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_msensitivity_hover
+		{
+			rect	245,289,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_msensitivity_background" ;
+					
+					set "set_game_msensitivity_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_msensitivity_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_customxhair_hover
+		{
+			rect	245,312,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_customxhair_background" ;
+					
+					set "set_game_customxhair_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_customxhair_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_previewxhair_hover
+		{
+			rect	245,335,361,48
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_previewxhair_background" ;
+					
+					set "set_game_previewxhair_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_previewxhair_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+			onAction {
+				set "cmd" "chooseCrosshair" "1" ;
+				set "cmd" "play main_menu_selection" ;
+			}
+
+			onBackAction {
+				set "cmd" "chooseCrosshair" "-1" ;
+				set "cmd" "play main_menu_selection" ;
+			}
+
+		}
+		windowDef set_game_xhairsize_hover
+		{
+			rect	245,384,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_xhairsize_background" ;
+					
+					set "set_game_xhairsize_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_xhairsize_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+		}
+		windowDef set_game_xhaircolor_hover
+		{
+			rect	245,409,361,20
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "set_game_xhaircolor_background" ;
+					
+					set "set_game_xhaircolor_background::matcolor_w" "1" ;
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "set_game_xhaircolor_background::matcolor_w" "1" "0.4" "300" ;
+				}
+			}
+
+			windowDef set_game_xhaircolor_hover_xcolor0
+			{
+				rect	227,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 1 1 1 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "1,1,1,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "1,1,1,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "1,1,1,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "1,1,1,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "1,1,1,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::bordercolor" "0.580,0.580,0.580,1" ;
+					set "set_game_xhaircolor_xcolor1::bordercolor" "0,0,0,1" ;
+					set "set_game_xhaircolor_xcolor2::bordercolor" "0,0,0,1" ;
+					set "set_game_xhaircolor_xcolor3::bordercolor" "0,0,0,1" ;
+					set "set_game_xhaircolor_xcolor4::bordercolor" "0,0,0,1" ;
+					set "set_game_xhaircolor_xcolor5::bordercolor" "0,0,0,1" ;
+					set "set_game_xhaircolor_xcolor6::bordercolor" "0,0,0,1" ;
+					set "set_game_xhaircolor_xcolor7::bordercolor" "0,0,0,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,16" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,12" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,12" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,12" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,12" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,12" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,12" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,12" ;
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+			windowDef set_game_xhaircolor_hover_xcolor1
+			{
+				rect	241,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 1 0 0 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "1,0,0,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "1,0,0,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "1,0,0,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "1,0,0,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "1,0,0,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,12" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,16" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,12" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,12" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,12" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,12" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,12" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,12" ;
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+			windowDef set_game_xhaircolor_hover_xcolor2
+			{
+				rect	255,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 1 0.5 0 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "1,0.5,0,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "1,0.5,0,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "1,0.5,0,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "1,0.5,0,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "1,0.5,0,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,12" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,12" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,16" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,12" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,12" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,12" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,12" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,12" ;
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+			windowDef set_game_xhaircolor_hover_xcolor3
+			{
+				rect	269,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 1 1 0 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "1,1,0,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "1,1,0,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "1,1,0,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "1,1,0,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "1,1,0,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,12" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,12" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,12" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,16" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,12" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,12" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,12" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,12" ;
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+			windowDef set_game_xhaircolor_hover_xcolor4
+			{
+				rect	283,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 0 1 0 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "0,1,0,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "0,1,0,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "0,1,0,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "0,1,0,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "0,1,0,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,12" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,12" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,12" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,12" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,16" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,12" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,12" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,12" ;
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+			windowDef set_game_xhaircolor_hover_xcolor5
+			{
+				rect	297,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 0 1 1 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "0,1,1,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "0,1,1,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "0,1,1,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "0,1,1,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "0,1,1,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,12" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,12" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,12" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,12" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,12" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,16" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,12" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,12" ;				
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+			windowDef set_game_xhaircolor_hover_xcolor6
+			{
+				rect	311,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 0 0 1 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "0,0,1,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "0,0,1,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "0,0,1,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "0,0,1,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "0,0,1,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,12" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,12" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,12" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,12" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,12" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,12" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,16" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,12" ;
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+			windowDef set_game_xhaircolor_hover_xcolor7
+			{
+				rect	325,8,12,12
+				visible	0
+
+				onAction {
+					consoleCMD "g_crosshairColor 1 0 0.5 1" ;
+					
+					set "set_game_previewxhair_size_16::matcolor" "1,0,0.5,1" ;
+					set "set_game_previewxhair_size_24::matcolor" "1,0,0.5,1" ;
+					set "set_game_previewxhair_size_32::matcolor" "1,0,0.5,1" ;
+					set "set_game_previewxhair_size_40::matcolor" "1,0,0.5,1" ;
+					set "set_game_previewxhair_size_48::matcolor" "1,0,0.5,1" ;
+					
+					set "set_game_xhaircolor_xcolor0::rect" "244,9,12,12" ;
+					set "set_game_xhaircolor_xcolor1::rect" "258,9,12,12" ;
+					set "set_game_xhaircolor_xcolor2::rect" "272,9,12,12" ;
+					set "set_game_xhaircolor_xcolor3::rect" "286,9,12,12" ;
+					set "set_game_xhaircolor_xcolor4::rect" "300,9,12,12" ;
+					set "set_game_xhaircolor_xcolor5::rect" "314,9,12,12" ;
+					set "set_game_xhaircolor_xcolor6::rect" "328,9,12,12" ;
+					set "set_game_xhaircolor_xcolor7::rect" "342,9,12,16" ;
+					
+					set "cmd" "play main_menu_selection" ;
+				}
+
+			}
+		}
 		windowDef set_b_system_1
 		{
 			rect	245,106,361,20
@@ -21853,7 +23302,7 @@ windowDef Desktop
 					stoptransitions "mp_b_browse_filter_prev_mod" ;
 					
 					transition "mp_browse_filter_prev_mod::matcolor" "$desktop::cr_orange" "$desktop::yellow_8" "0" ; 
-
+					
 					set "cmd" "play main_menu_mouseover" ;	
 				}
 			}
@@ -23009,6 +24458,44 @@ windowDef Desktop
 			}
 
 		}
+		windowDef aboutMod_b_back
+		{
+			rect	536,444,105,23
+			visible	0
+
+			onMouseEnter {
+				if ("desktop::active" == 0) {
+					stoptransitions "aboutMod_b_back" ;
+					
+					set "aboutMod_back::matcolor_w" "0.8" ;
+					transition "aboutMod_t_back::forecolor" "$desktop::white_8" "$desktop::orange" "0" ; 
+					transition "aboutMod_back_corner::matcolor" "$desktop::corner" "$desktop::orange" "0" ;
+					
+					set "aboutMod_t_back::textscale" "0.29" ; 
+					
+					set "cmd" "play main_menu_mouseover" ;	
+				}
+			}
+
+			onMouseExit {
+				if ("desktop::active" == 0) {
+					transition "aboutMod_back::matcolor_w" "0.8" "0.4" "300" ;
+					transition "aboutMod_t_back::forecolor"  "$desktop::orange" "$desktop::white_8" "300" ; 
+					transition "aboutMod_back_corner::matcolor"  "$desktop::orange" "$desktop::corner" "300" ; 
+					
+					transition "aboutMod_t_back::textscale" "0.29" "0.28" "300" ;
+				}
+			}
+
+			onAction {
+				set "desktop::active" "1" ;
+				resettime "anim_aboutModOut" "0" ;
+				set "desktop::dest" "0" ;
+				
+				set "cmd" "play main_menu_selection" ;
+			}
+
+		}
 		windowDef pop_b_exit_yes
 		{
 			rect	184,254,125,23
@@ -23928,7 +25415,7 @@ windowDef Desktop
 				}
 			}
 
-		}	
+		}
 		windowDef pop_b_createAdv_10
 		{
 			rect	122,386,408,20
@@ -24652,12 +26139,12 @@ windowDef Desktop
 			onAction {
 				set "cmd" "play main_menu_selection ; video recommended" ;
 				set "set_sys_notice::visible" "1" ;
-//				set "set_vidrestart::visible" "0" ;
-//				set "set_t_vidrestart::visible" "0" ;
-//				set "set_b_vidrestart::visible" "0" ;
+				//				set "set_vidrestart::visible" "0" ;
+				//				set "set_t_vidrestart::visible" "0" ;
+				//				set "set_b_vidrestart::visible" "0" ;
 				set "desktop::vidwarn" "1" ;
 				set "desktop::sndwarn" "0" ;
-//				consolecmd "vid_restart" ;
+				//				consolecmd "vid_restart" ;
 				set "desktop::active" "1" ;
 				resettime "anim_pop_autoOut" "0" ;
 				resettime "set_sys_t_auto" "0" ;
@@ -24697,9 +26184,9 @@ windowDef Desktop
 				set "desktop::active" "1" ;
 				resettime "anim_pop_ultrawarnOut" "0" ;
 				set "set_sys_notice::visible" "1" ;
-//				set "set_vidrestart::visible" "1" ;
-//				set "set_t_vidrestart::visible" "1" ;
-//				set "set_b_vidrestart::visible" "1" ;
+				//				set "set_vidrestart::visible" "1" ;
+				//				set "set_t_vidrestart::visible" "1" ;
+				//				set "set_b_vidrestart::visible" "1" ;
 				set "desktop::vidwarn" "1" ;
 				
 				if ( "desktop::com_machineSpec" == 2 ) {
@@ -24756,9 +26243,9 @@ windowDef Desktop
 				set "desktop::active" "1" ;
 				resettime "anim_pop_ultrawarnOut" "0" ;
 				set "set_sys_notice::visible" "1" ;
-//				set "set_vidrestart::visible" "1" ;
-//				set "set_t_vidrestart::visible" "1" ;
-//				set "set_b_vidrestart::visible" "1" ;
+				//				set "set_vidrestart::visible" "1" ;
+				//				set "set_t_vidrestart::visible" "1" ;
+				//				set "set_b_vidrestart::visible" "1" ;
 				set "desktop::vidwarn" "1" ;
 			}
 
@@ -24870,12 +26357,12 @@ windowDef Desktop
 			}
 
 			onAction {
-//				consolecmd "vid_restart" ;
+				//				consolecmd "vid_restart" ;
 				
 				set "set_sys_notice::visible" "0" ;
-//				set "set_vidrestart::visible" "0" ;
-//				set "set_t_vidrestart::visible" "0" ;
-//				set "set_b_vidrestart::visible" "0" ;
+				//				set "set_vidrestart::visible" "0" ;
+				//				set "set_t_vidrestart::visible" "0" ;
+				//				set "set_b_vidrestart::visible" "0" ;
 				
 				set "desktop::active" "1" ;	
 				resettime "anim_pop_vidwarnOut" "0" ;
@@ -25010,10 +26497,11 @@ windowDef Desktop
 					resettime "anim_pop_sndadvOut" "0" ;
 					
 					set "cmd" "play main_menu_selection" ;
-
+					
 				}
-
+				
 			}
+
 		}
 	}
 }
