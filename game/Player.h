@@ -267,6 +267,68 @@ public:
 	int						secretAreasDiscovered;
 };
 
+class idPokemon {
+public:
+	idStr					name;
+	int						maxHealth;
+	int						currentHealth;
+	int						maxXp;
+	int						currentXp;
+	int						level;
+	int						evolutionLevel;
+	int						maxAttack;
+	int						currentAttack;
+	int						maxDefense;
+	int						currentDefense;
+
+
+	idPokemon() { name = "pokemon"; }
+
+	idPokemon(	idStr					_name, 
+				int						_maxHealth,
+				int						_currentHealth,
+				int						_maxXp,
+				int						_currentXp,
+				int						_level,
+				int						_evolutionLevel,
+				int						_maxAttack,
+				int						_currentAttack,
+				int						_maxDefense,
+				int						_currentDefense) 
+	{ 
+		name = _name;
+		maxHealth = _maxHealth;
+		currentHealth = _currentHealth;
+		maxXp = _maxXp;
+		currentXp = _currentXp;
+		level = _level;
+		evolutionLevel = _evolutionLevel;
+		maxAttack = _maxAttack;
+		currentAttack = _currentAttack;
+		maxDefense = _maxDefense;
+		currentDefense = _currentDefense;
+	}
+	//~idPokemon() { Clear(); }
+
+	//// save games
+	//void					Save(idSaveGame* savefile) const;					// archives object for save game file
+	//void					Restore(idRestoreGame* savefile);					// unarchives object from save game file
+
+	//void					Clear(void);
+	//void					GivePowerUp(idPlayer* player, int powerup, int msec);
+	//void					ClearPowerUps(void);
+	//void					GetPersistantData(idDict& dict);
+	//void					RestoreInventory(idPlayer* owner, const idDict& dict);
+	//bool					Give(idPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value, int* idealWeapon, bool updateHud, bool dropped = false, bool checkOnly = false);
+	//void					Drop(const idDict& spawnArgs, const char* weapon_classname, int weapon_index);
+	//int						AmmoIndexForAmmoClass(const char* ammo_classname) const;
+	//int						MaxAmmoForAmmoClass(idPlayer* owner, const char* ammo_classname) const;
+	//int						AmmoIndexForWeaponClass(const char* weapon_classname, int* ammoRequired = NULL);
+	//const char* AmmoClassForWeaponClass(const char* weapon_classname);
+
+
+};
+
 class idPlayer : public idActor {
 public:
 
@@ -425,7 +487,7 @@ public:
 	float					buyMenuCash;
 // RITUAL END
 
-	idStrList				pokemonTeam;
+	idList<idPokemon>		pokemonTeam;
 
 
 public:
@@ -1334,6 +1396,8 @@ ID_INLINE int idPlayer::GetArena( void ) const {
 ID_INLINE bool idPlayer::CanFire( void ) const {
 	return flagCanFire;
 }
+
+
 
 #endif /* !__GAME_PLAYER_H__ */
 

@@ -2934,6 +2934,29 @@ void Cmd_Whereami_f(const idCmdArgs& args) {
 	gameLocal.Printf("map:%s\n", gameLocal.mapFileNameStripped.c_str());
 }
 
+void Cmd_TeamStats_f(const idCmdArgs& args) {
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	if (!player) {
+		common->Printf("ERROR: Cmd_TeamStats_f() failed, since GetLocalPlayer() was NULL.\n", player);
+		return;
+	}
+	idList<idPokemon> allPokemon = player->pokemonTeam;
+	
+	for (int i = 0; i < allPokemon.Num(); i++) {
+		if (allPokemon[i].evolutionLevel != 0) {
+			gameLocal.Printf("%s\nLevel: %i\nXp: %i/%i\nHealth: %i/%i\nAttack: %i/%i\nDefense: %i/%i\nEvolution at Lvl: %i\n\n",
+				allPokemon[i].name.c_str(), allPokemon[i].level, allPokemon[i].currentXp, allPokemon[i].maxXp, allPokemon[i].currentHealth, allPokemon[i].maxHealth,
+				allPokemon[i].currentAttack, allPokemon[i].maxAttack, allPokemon[i].currentDefense, allPokemon[i].maxDefense, allPokemon[i].evolutionLevel);
+		}
+		else {
+			gameLocal.Printf("%s\nLevel: %i\nXp: %i/%i\nHealth: %i/%i\nAttack: %i/%i\nDefense: %i/%i\nNo evolution\n\n",
+				allPokemon[i].name.c_str(), allPokemon[i].level, allPokemon[i].currentXp, allPokemon[i].maxXp, allPokemon[i].currentHealth, allPokemon[i].maxHealth,
+				allPokemon[i].currentAttack, allPokemon[i].maxAttack, allPokemon[i].currentDefense, allPokemon[i].maxDefense);
+		}
+		
+	}
+}
+
 // RITUAL BEGIN
 // squirrel: Mode-agnostic buymenus
 void Cmd_ToggleBuyMenu_f( const idCmdArgs& args ) {
@@ -3246,6 +3269,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "buyMenu",				Cmd_ToggleBuyMenu_f,		CMD_FL_GAME,				"Toggle buy menu (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "whereami",				Cmd_Whereami_f,				CMD_FL_GAME,				"Where am I");
+	cmdSystem->AddCommand("teamstats", Cmd_TeamStats_f, CMD_FL_GAME, "Get the stats of every pokemon of your team");
 
 // RITUAL END
 

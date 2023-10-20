@@ -2504,29 +2504,19 @@ windowDef Desktop
 
 //-------------------------
 
-	windowDef p_team_name
+	windowDef p_team
     {
         rect        30,30,200,25
         visible        1
         forecolor        1,1,1,1
-        text        "Name:"
-        textscale        0.4
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef p_team_level
-    {
-        rect        150,30,200,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "Level:"
+        text        "Your Team:"
         textscale        0.4
         font        "fonts/marine"
         textstyle        2
     }
 	windowDef pokemon_name_1
     {
-        rect        33,60,100,25
+        rect        30,60,100,25
         visible        1
         forecolor        1,1,1,1
         text        "gui::pokemon_name_1"
@@ -2536,7 +2526,7 @@ windowDef Desktop
     }
 	windowDef pokemon_name_2
     {
-        rect        33,80,100,25
+        rect        30,80,100,25
         visible        1
         forecolor        1,1,1,1
         text        "gui::pokemon_name_2"
@@ -2546,7 +2536,7 @@ windowDef Desktop
     }
 	windowDef pokemon_name_3
     {
-        rect        33,100,100,25
+        rect        30,100,100,25
         visible        1
         forecolor        1,1,1,1
         text        "gui::pokemon_name_3"
@@ -2554,109 +2544,39 @@ windowDef Desktop
         font        "fonts/marine"
         textstyle        2
     }
-	windowDef pokemon_name_4
+	windowDef pokemon_t_lvl_1
     {
-        rect        33,120,100,25
+        rect        100,60,100,25
         visible        1
         forecolor        1,1,1,1
-        text        "gui::pokemon_name_4"
+        text        "Level:"
         textscale        0.3
         font        "fonts/marine"
         textstyle        2
     }
-	windowDef pokemon_name_5
+	windowDef pokemon_t_lvl_2
     {
-        rect        30,140,100,25
+        rect        100,80,100,25
         visible        1
         forecolor        1,1,1,1
-        text        "gui::pokemon_name_5"
+        text        "Level:"
         textscale        0.3
         font        "fonts/marine"
         textstyle        2
     }
-	windowDef pokemon_name_6
+	windowDef pokemon_t_lvl_3
     {
-        rect        30,160,100,25
+        rect        100,100,100,25
         visible        1
         forecolor        1,1,1,1
-        text        "gui::pokemon_name_6"
+        text        "Level:"
         textscale        0.3
         font        "fonts/marine"
         textstyle        2
     }
-	windowDef pokemon_name_7
-    {
-        rect        30,180,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_name_7"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_name_8
-    {
-        rect        30,200,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_name_8"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_name_9
-    {
-        rect        30,220,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_name_9"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_name_10
-    {
-        rect        30,240,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_name_10"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	// windowDef pokemon_t_lvl_1
-    // {
-        // rect        150,60,100,25
-        // visible        1
-        // forecolor        1,1,1,1
-        // text        "Lvl:"
-        // textscale        0.3
-        // font        "fonts/marine"
-        // textstyle        2
-    // }
-	// windowDef pokemon_t_lvl_2
-    // {
-        // rect        150,80,100,25
-        // visible        1
-        // forecolor        1,1,1,1
-        // text        "Lvl:"
-        // textscale        0.3
-        // font        "fonts/marine"
-        // textstyle        2
-    // }
-	// windowDef pokemon_t_lvl_3
-    // {
-        // rect        150,100,100,25
-        // visible        1
-        // forecolor        1,1,1,1
-        // text        "Lvl:"
-        // textscale        0.3
-        // font        "fonts/marine"
-        // textstyle        2
-    // }
 	windowDef pokemon_level_1
     {
-        rect        153,60,100,25
+        rect        130,60,100,25
         visible        1
         forecolor        1,1,1,1
         text        "gui::pokemon_level_1"
@@ -2666,7 +2586,7 @@ windowDef Desktop
     }
 	windowDef pokemon_level_2
     {
-        rect        153,80,100,25
+        rect        130,80,100,25
         visible        1
         forecolor        1,1,1,1
         text        "gui::pokemon_level_2"
@@ -2676,7 +2596,7 @@ windowDef Desktop
     }
 	windowDef pokemon_level_3
     {
-        rect        153,100,100,25
+        rect        130,100,100,25
         visible        1
         forecolor        1,1,1,1
         text        "gui::pokemon_level_3"
@@ -2684,79 +2604,9 @@ windowDef Desktop
         font        "fonts/marine"
         textstyle        2
     }
-	windowDef pokemon_level_4
-    {
-        rect        153,120,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_level_4"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_level_5
-    {
-        rect        153,140,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_level_5"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_level_6
-    {
-        rect        153,160,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_level_6"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_level_7
-    {
-        rect        153,180,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_level_7"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_level_8
-    {
-        rect        153,200,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_level_8"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_level_9
-    {
-        rect        153,220,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_level_9"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
-	windowDef pokemon_level_10
-    {
-        rect        153,240,100,25
-        visible        1
-        forecolor        1,1,1,1
-        text        "gui::pokemon_level_10"
-        textscale        0.3
-        font        "fonts/marine"
-        textstyle        2
-    }
 	windowDef inventory_text
     {
-        rect        450,30,150,25
+        rect        450,30,100,25
         visible        1
         forecolor        1,1,1,1
         text        "Inventory:"

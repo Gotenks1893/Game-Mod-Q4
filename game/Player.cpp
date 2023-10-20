@@ -1344,10 +1344,13 @@ idPlayer::idPlayer() {
 	teamDoublerPending		= false;
 
 
-	pokemonTeam = idStrList();
-	pokemonTeam.Insert("Charmander");
-	pokemonTeam.Insert("Bulbasaur");
-	pokemonTeam.Insert("Shiggy");
+	pokemonTeam = idList<idPokemon>();
+	idPokemon charmander = idPokemon("Charmander", 100, 100, 200, 0, 5, 10, 50, 50, 50, 50);
+	pokemonTeam.Insert(charmander);
+	idPokemon bulbasaur = idPokemon("Bulbasaur", 120, 120, 200, 0, 4, 10, 50, 50, 50, 50);
+	pokemonTeam.Insert(bulbasaur);
+	idPokemon shiggy = idPokemon("Shiggy", 120, 120, 200, 0, 6, 0, 50, 50, 50, 50);
+	pokemonTeam.Insert(shiggy);
 
 }
 
@@ -3445,9 +3448,12 @@ void idPlayer::UpdateHudStats( idUserInterface *_hud ) {
 	}
 
 	for (int i = 0; i < pokemonTeam.Num(); i++) {
-		idStr pokemon = "pokemon_";
-		pokemon.Append(idStr(i+1));
-		_hud->SetStateString(pokemon, pokemonTeam[i]);
+		idStr pokemonName = "pokemon_name_";
+		pokemonName.Append(idStr(i+1));
+		_hud->SetStateString(pokemonName, pokemonTeam[i].name);
+		idStr pokemonLevel = "pokemon_level_";
+		pokemonLevel.Append(idStr(i + 1));
+		_hud->SetStateString(pokemonLevel, va("%i", pokemonTeam[i].level));
 	}
 	
 	_hud->StateChanged( gameLocal.time );
@@ -14100,5 +14106,28 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 
 	return weaponNum;
 }
+
+///*
+//==============
+//idPokemon::idPokemon
+//==============
+//*/
+//idPokemon::idPokemon(idStr name, int maxHealth, int	currentHealth, int maxXp,
+//int						currentXp,
+//int						level,
+//int						evolutionLevel,
+//int						maxAttack,
+//int						currentAttack,
+//int						maxDefense,
+//int						currentDefense) {
+//
+//	maxAttack = 100;
+//	max
+//	idPokemon charmander = idPokemon();
+//	pokemonTeam.Insert("Charmander");
+//	pokemonTeam.Insert("Bulbasaur");
+//	pokemonTeam.Insert("Shiggy");
+//
+//}
 
 // RITUAL END
