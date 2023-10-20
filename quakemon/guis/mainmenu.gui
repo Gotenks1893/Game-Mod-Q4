@@ -408,7 +408,7 @@ windowDef Desktop
 			set "cmd" "play main_menu_selection" ;
 		}  else if ("desktop::curr" == 36 && "desktop::active" == 0) {
 			set "desktop::active" "1" ;
-			resettime "anim_aboutModOut" "0" ;
+			resettime "anim_helpOut" "0" ;
 			set "desktop::dest" "0" ;
 			set "cmd" "play main_menu_selection" ;
 		} 
@@ -490,7 +490,7 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "1" ;
 			set "main_b_settings::visible" "1" ;
 			set "main_b_exit::visible" "1" ;
-			set "main_b_aboutMod::visible" "1" ;
+			set "main_b_help::visible" "1" ;
 			
 			set "main_t_b1::text" "#str_200000" ;
 			set "main_t_b2::text" "#str_200001" ;
@@ -528,7 +528,7 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "1" ;
 			set "main_b_settings::visible" "1" ;
 			set "main_b_exit::visible" "1" ;
-			set "main_b_aboutMod::visible" "1" ;
+			set "main_b_help::visible" "1" ;
 			
 			set "main_t_b1::text" "#str_200003" ;
 			set "main_t_b2::text" "#str_200001" ;
@@ -569,7 +569,7 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "0" ;
 			set "main_b_settings::visible" "1" ;
 			set "main_b_exit::visible" "1" ;
-			set "main_b_aboutMod::visible" "0" ;
+			set "main_b_help::visible" "0" ;
 			
 			set "main_t_b1::text" "#str_200005" ;
 			set "main_t_b2::text" "#str_200006" ;
@@ -1597,11 +1597,11 @@ windowDef Desktop
 				}
 			}
 		}
-		windowDef p_aboutMod
+		windowDef p_help
 		{
 			rect	0,0,640,480
 			visible	0
-			windowDef t_aboutMod_title
+			windowDef t_help_title
 			{
 				rect	39,19,314,16
 				visible	1
@@ -1610,21 +1610,21 @@ windowDef Desktop
 				textscale	.25
 				font	"fonts/marine"
 			}
-			windowDef aboutMod_back
+			windowDef help_back
 			{
 				rect	532,441,109,30
 				visible	1
 				background	"gfx/guis/mainmenu/b4_light"
 				matcolor	0.545,0.288,0.294,0
 			}
-			windowDef aboutMod_back_corner
+			windowDef help_back_corner
 			{
 				rect	542,449,11,11
 				visible	1
 				background	"gfx/guis/mainmenu/corner"
 				matcolor	0.564,0.203,0.286,0
 			}
-			windowDef aboutMod_t_back
+			windowDef help_t_back
 			{
 				rect	552,443,88,17
 				visible	1
@@ -1633,7 +1633,7 @@ windowDef Desktop
 				textscale	.28
 				font	"fonts/marine"
 			}
-			windowDef aboutMod_Text
+			windowDef help_Text
 			{
 				rect	50,181,345,139
 				visible	1
@@ -16320,10 +16320,10 @@ windowDef Desktop
 			set "save_t_back::forecolor"  "$desktop::white_0" ; 
 			set "save_back_corner::matcolor" "$desktop::corner_0" ;
 			set "save_t_back::textscale" "0.28" ; 
-			set "aboutMod_back::matcolor_w" "0" ;
-			set "aboutMod_t_back::forecolor"  "$desktop::white_0" ; 
-			set "aboutMod_back_corner::matcolor" "$desktop::corner_0" ;
-			set "aboutMod_t_back::textscale" "0.28" ; 
+			set "help_back::matcolor_w" "0" ;
+			set "help_t_back::forecolor"  "$desktop::white_0" ; 
+			set "help_back_corner::matcolor" "$desktop::corner_0" ;
+			set "help_t_back::textscale" "0.28" ; 
 		}
 
 		onNamedEvent popReset0 {
@@ -16715,7 +16715,7 @@ windowDef Desktop
 				stoptransitions "main_b_updates" ;
 				stoptransitions "main_b_credits" ;
 				stoptransitions "main_b_exit" ;
-				stoptransitions "main_b_aboutMod" ;
+				stoptransitions "main_b_help" ;
 				
 				transition "main_b1::matcolor_w" "0.4" "0" "250" ;
 				transition "main_t_b1::forecolor_w"  "0.8" "0" "250" ; 
@@ -16809,7 +16809,7 @@ windowDef Desktop
 					resettime "anim_mpBrowseIn" "0" ;
 					namedevent "p_anims::backReset0" ;
 				} else if ("desktop::dest" == 36) {
-					resettime "anim_aboutModIn" "0" ;
+					resettime "anim_helpIn" "0" ;
 					namedevent "p_anims::backReset0" ;
 				}
 			}
@@ -17579,62 +17579,63 @@ windowDef Desktop
 			}
 
 		}
-		windowDef anim_aboutModIn
+		windowDef anim_helpIn
 		{
 			rect	0,0,1,1
 			visible	1
 			notime	1
 
 			onTime 0 {
-				transition "p_aboutMod::rect" "$d_main_l::rect" "$d_main::rect" "0" ;
-				set "p_aboutMod::visible" "1" ;
-				transition "t_aboutMod_title::forecolor_w" "0" "0.5" "150" ;
+				transition "p_help::rect" "$d_main_l::rect" "$d_main::rect" "0" ;
+				set "p_help::visible" "1" ;
+				transition "t_help_title::forecolor_w" "0" "0.5" "150" ;
 				transition "grad7::matcolor_w" "0" "0.6" "150" ;
 				transition "screen2::matcolor" "$desktop::black" "0.4,0.4,0.4,1" "150" ;
 				
-				// back aboutMod
-				transition "aboutMod_back::matcolor_w" "0" "0.4" "150" ;
-				transition "aboutMod_t_back::forecolor_w"  "0" "0.8" "150" ; 
-				transition "aboutMod_back_corner::matcolor_w"  "0" "0.4" "150" ;
+				// back help
+				transition "help_back::matcolor_w" "0" "0.4" "150" ;
+				transition "help_t_back::forecolor_w"  "0" "0.8" "150" ; 
+				transition "help_back_corner::matcolor_w"  "0" "0.4" "150" ;
 			}
 
 			onTime +150 {
 				set "desktop::active" "0" ;
-				namedevent "p_btns::showAboutMod" ;
+				namedevent "p_btns::showhelp" ;
+				
 				set "desktop::curr" "36" ;
 			}
 
 		}
-		windowDef anim_aboutModOut
+		windowDef anim_helpOut
 		{
 			rect	0,0,1,1
 			visible	1
 			notime	1
 
 			onTime 0 {
-				namedevent "p_btns::hideAboutMod" ;
+				namedevent "p_btns::hidehelp" ;
 				
 				transition "p_main::rect" "$d_main_r::rect" "$d_main::rect" "0" ;
-				transition "p_aboutMod::rect" "$d_main::rect" "$d_main_l::rect" "300" ;
+				transition "p_help::rect" "$d_main::rect" "$d_main_l::rect" "300" ;
 				
 				transition "topbar::rect"  "$d_topbar::rect"  "$topbar::rect" "500" "150" "150" ;
 				transition "btmbar::rect"  "$d_btmbar::rect"  "$btmbar::rect" "500" "150" "150" ;
 				
 				
 				// transitions
-				transition "t_aboutMod_title::forecolor_w" "0.5" "0" "0" ;
+				transition "t_help_title::forecolor_w" "0.5" "0" "0" ;
 				transition "grad7::matcolor_w" "0.6" "0" "250" ;
 				transition "screen2::matcolor" "0.4,0.4,0.4,1" "$desktop::black" "250" ;	
 				
 				
 				// back button	
-				transition "aboutMod_back::matcolor_w" "0.8" "0" "100" ;
-				transition "aboutMod_t_back::forecolor_w"  "1" "0" "100" ; 
-				transition "aboutMod_back_corner::matcolor_w"  "1" "0" "100" ; 
+				transition "help_back::matcolor_w" "0.8" "0" "100" ;
+				transition "help_t_back::forecolor_w"  "1" "0" "100" ; 
+				transition "help_back_corner::matcolor_w"  "1" "0" "100" ; 
 			}
 
 			onTime +500 {
-				set "p_aboutMod::visible" "0" ;
+				set "p_help::visible" "0" ;
 				
 				resettime "anim_mainIn" "0" ;
 				namedevent "p_anims::mainReset0" ;
@@ -19160,7 +19161,7 @@ windowDef Desktop
 				set "main_b_mods::visible" "1" ;
 				set "main_b_updates::visible" "1" ;
 				set "main_b_credits::visible" "1" ;
-				set "main_b_aboutMod::visible" "1" ;
+				set "main_b_help::visible" "1" ;
 			} else if ("gui::ingame" == 1) {
 				set "main_b_returnmp::visible" "0" ;
 				set "main_b_newgame::visible" "0" ;
@@ -19172,7 +19173,7 @@ windowDef Desktop
 				set "main_b_mods::visible" "0" ;
 				set "main_b_updates::visible" "0" ;
 				set "main_b_credits::visible" "0" ;
-				set "main_b_aboutMod::visible" "1" ;
+				set "main_b_help::visible" "1" ;
 			} else if ("gui::ingame" == 2) {
 				set "main_b_returnmp::visible" "1" ;
 				set "main_b_newgame::visible" "0" ;
@@ -19184,7 +19185,7 @@ windowDef Desktop
 				set "main_b_mods::visible" "1" ;
 				set "main_b_updates::visible" "1" ;
 				set "main_b_credits::visible" "1" ;
-				set "main_b_aboutMod::visible" "0" ;
+				set "main_b_help::visible" "0" ;
 			} 
 			set "main_b_loadgame::visible" "1" ;
 			set "main_b_settings::visible" "1" ;
@@ -19205,7 +19206,7 @@ windowDef Desktop
 			set "main_b_loadgame::visible" "0" ;
 			set "main_b_settings::visible" "0" ;
 			set "main_b_exit::visible" "0" ;
-			set "main_b_aboutMod::visible" "0" ;
+			set "main_b_help::visible" "0" ;
 		}
 
 		onNamedEvent showSet {
@@ -19948,12 +19949,12 @@ windowDef Desktop
 			set "p_set_ctrls_other::visible" "0" ;
 		}
 		
-		onNamedEvent showAboutMod {
-			set "aboutMod__b_back::visible" "1" ;
+		onNamedEvent showhelp {
+			set "help_b_back::visible" "1" ;
 		}
 
-		onNamedEvent hideAboutMod {
-			set "aboutMod_b_back::visible" "0" ;
+		onNamedEvent hidehelp {
+			set "help_b_back::visible" "0" ;
 		}
 
 		onNamedEvent showPop_exit {
@@ -20456,33 +20457,10 @@ windowDef Desktop
 			}
 
 		}
-		windowDef main_b_aboutMod
+		windowDef main_b_help
 		{
 			rect	24,334,333,26
 			visible	1
-
-			onMouseEnter {
-				if ("desktop::active" == 0) {
-					stoptransitions "main_b_aboutMod" ;
-					
-					set "main_b9::matcolor_w" "0.8" ;
-					transition "main_t_b9::forecolor" "$desktop::white_8" "$desktop::orange" "0" ; 
-					transition "main_b9_corner::matcolor" "$desktop::corner" "$desktop::orange" "0" ; 
-					
-					set "main_t_b9::textscale" "0.34" ; 
-					
-					set "cmd" "play main_menu_mouseover" ;
-			}
-
-			onMouseExit {
-				if ("desktop::active" == 0) {
-					transition "main_b9::matcolor_w" "0.8" "0.4" "300" ;
-					transition "main_t_b9::forecolor"  "$desktop::orange" "$desktop::white_8" "300" ; 
-					transition "main_b9_corner::matcolor"  "$desktop::orange" "$desktop::corner" "300" ;
-					
-					transition "main_t_b9::textscale" "0.34" "0.33" "300" ; 
-				}
-			}
 
 			onAction {
 				set "desktop::active" "1" ;
@@ -24458,38 +24436,14 @@ windowDef Desktop
 			}
 
 		}
-		windowDef aboutMod_b_back
+		windowDef help_b_back
 		{
 			rect	536,444,105,23
 			visible	0
 
-			onMouseEnter {
-				if ("desktop::active" == 0) {
-					stoptransitions "aboutMod_b_back" ;
-					
-					set "aboutMod_back::matcolor_w" "0.8" ;
-					transition "aboutMod_t_back::forecolor" "$desktop::white_8" "$desktop::orange" "0" ; 
-					transition "aboutMod_back_corner::matcolor" "$desktop::corner" "$desktop::orange" "0" ;
-					
-					set "aboutMod_t_back::textscale" "0.29" ; 
-					
-					set "cmd" "play main_menu_mouseover" ;	
-				}
-			}
-
-			onMouseExit {
-				if ("desktop::active" == 0) {
-					transition "aboutMod_back::matcolor_w" "0.8" "0.4" "300" ;
-					transition "aboutMod_t_back::forecolor"  "$desktop::orange" "$desktop::white_8" "300" ; 
-					transition "aboutMod_back_corner::matcolor"  "$desktop::orange" "$desktop::corner" "300" ; 
-					
-					transition "aboutMod_t_back::textscale" "0.29" "0.28" "300" ;
-				}
-			}
-
 			onAction {
 				set "desktop::active" "1" ;
-				resettime "anim_aboutModOut" "0" ;
+				resettime "anim_helpOut" "0" ;
 				set "desktop::dest" "0" ;
 				
 				set "cmd" "play main_menu_selection" ;

@@ -1342,6 +1342,13 @@ idPlayer::idPlayer() {
 	teamAmmoRegenPending	= false;
 	teamDoubler			= NULL;		
 	teamDoublerPending		= false;
+
+
+	pokemonTeam = idStrList();
+	pokemonTeam.Insert("Charmander");
+	pokemonTeam.Insert("Bulbasaur");
+	pokemonTeam.Insert("Shiggy");
+
 }
 
 /*
@@ -3435,6 +3442,12 @@ void idPlayer::UpdateHudStats( idUserInterface *_hud ) {
 
 	if ( weapon ) {
 		UpdateHudAmmo( _hud );
+	}
+
+	for (int i = 0; i < pokemonTeam.Num(); i++) {
+		idStr pokemon = "pokemon_";
+		pokemon.Append(idStr(i+1));
+		_hud->SetStateString(pokemon, pokemonTeam[i]);
 	}
 	
 	_hud->StateChanged( gameLocal.time );

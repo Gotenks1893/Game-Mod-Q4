@@ -425,6 +425,9 @@ public:
 	float					buyMenuCash;
 // RITUAL END
 
+	idStrList				pokemonTeam;
+
+
 public:
 	CLASS_PROTOTYPE( idPlayer );
 
