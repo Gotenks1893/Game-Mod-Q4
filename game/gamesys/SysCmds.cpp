@@ -2941,17 +2941,22 @@ void Cmd_TeamStats_f(const idCmdArgs& args) {
 		return;
 	}
 	idList<idPokemon> allPokemon = player->pokemonTeam;
-	
+
 	for (int i = 0; i < allPokemon.Num(); i++) {
+		gameLocal.Printf("%s\n", allPokemon[i].name.c_str());
+		gameLocal.Printf("Level: %i\n", allPokemon[i].level);
+		gameLocal.Printf("Xp: %i/%i\n", allPokemon[i].currentXp, allPokemon[i].maxXp);
+		gameLocal.Printf("Health: %i/%i\n", allPokemon[i].currentHealth, allPokemon[i].maxHealth);
+		gameLocal.Printf("Attack: %i/%i\n", allPokemon[i].currentAttack, allPokemon[i].maxAttack);
+		gameLocal.Printf("Defense: %i/%i\n", allPokemon[i].currentDefense, allPokemon[i].maxDefense);
+		gameLocal.Printf("Speed: %i/%i\n", allPokemon[i].currentSpeed, allPokemon[i].maxSpeed);
+		gameLocal.Printf("Abilities: %s, %s, %s, %s\n", allPokemon[i].abilities[0].name.c_str(), allPokemon[i].abilities[1].name.c_str(), 
+			allPokemon[i].abilities[2].name.c_str(), allPokemon[i].abilities[3].name.c_str());
 		if (allPokemon[i].evolutionLevel != 0) {
-			gameLocal.Printf("%s\nLevel: %i\nXp: %i/%i\nHealth: %i/%i\nAttack: %i/%i\nDefense: %i/%i\nEvolution at Lvl: %i\n\n",
-				allPokemon[i].name.c_str(), allPokemon[i].level, allPokemon[i].currentXp, allPokemon[i].maxXp, allPokemon[i].currentHealth, allPokemon[i].maxHealth,
-				allPokemon[i].currentAttack, allPokemon[i].maxAttack, allPokemon[i].currentDefense, allPokemon[i].maxDefense, allPokemon[i].evolutionLevel);
+			gameLocal.Printf("Evolution at Lvl : % i\n\n", allPokemon[i].evolutionLevel);
 		}
 		else {
-			gameLocal.Printf("%s\nLevel: %i\nXp: %i/%i\nHealth: %i/%i\nAttack: %i/%i\nDefense: %i/%i\nNo evolution\n\n",
-				allPokemon[i].name.c_str(), allPokemon[i].level, allPokemon[i].currentXp, allPokemon[i].maxXp, allPokemon[i].currentHealth, allPokemon[i].maxHealth,
-				allPokemon[i].currentAttack, allPokemon[i].maxAttack, allPokemon[i].currentDefense, allPokemon[i].maxDefense);
+			gameLocal.Printf("No evolution\n\n");
 		}
 		
 	}

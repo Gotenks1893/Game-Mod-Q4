@@ -267,6 +267,35 @@ public:
 	int						secretAreasDiscovered;
 };
 
+class idPkmnAbility {
+public:
+	idStr					name;
+	float					accuracy;
+	float					power;
+	float					atkDrop;
+	float					defDrop;
+	float					speedDrop;
+
+
+
+	idPkmnAbility() { name = "ability"; }
+
+	idPkmnAbility(idStr			_name,
+		float					_accuracy,
+		float					_power,
+		float					_atkDrop,
+		float					_defDrop,
+		float					_speedDrop)
+	{
+		name = _name;
+		accuracy = _accuracy;
+		power = _power;
+		atkDrop = _atkDrop;
+		defDrop = _defDrop;
+		speedDrop = _speedDrop;
+	}
+};
+
 class idPokemon {
 public:
 	idStr					name;
@@ -280,6 +309,9 @@ public:
 	int						currentAttack;
 	int						maxDefense;
 	int						currentDefense;
+	int						maxSpeed;
+	int						currentSpeed;
+	idList<idPkmnAbility>	abilities;
 
 
 	idPokemon() { name = "pokemon"; }
@@ -294,7 +326,10 @@ public:
 				int						_maxAttack,
 				int						_currentAttack,
 				int						_maxDefense,
-				int						_currentDefense) 
+				int						_currentDefense,
+				int						_maxSpeed,
+				int						_currentSpeed,
+				idList<idPkmnAbility>	_abilities)
 	{ 
 		name = _name;
 		maxHealth = _maxHealth;
@@ -307,26 +342,10 @@ public:
 		currentAttack = _currentAttack;
 		maxDefense = _maxDefense;
 		currentDefense = _currentDefense;
+		maxSpeed = _maxSpeed;
+		currentSpeed = _currentSpeed;
+		abilities = _abilities;
 	}
-	//~idPokemon() { Clear(); }
-
-	//// save games
-	//void					Save(idSaveGame* savefile) const;					// archives object for save game file
-	//void					Restore(idRestoreGame* savefile);					// unarchives object from save game file
-
-	//void					Clear(void);
-	//void					GivePowerUp(idPlayer* player, int powerup, int msec);
-	//void					ClearPowerUps(void);
-	//void					GetPersistantData(idDict& dict);
-	//void					RestoreInventory(idPlayer* owner, const idDict& dict);
-	//bool					Give(idPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value, int* idealWeapon, bool updateHud, bool dropped = false, bool checkOnly = false);
-	//void					Drop(const idDict& spawnArgs, const char* weapon_classname, int weapon_index);
-	//int						AmmoIndexForAmmoClass(const char* ammo_classname) const;
-	//int						MaxAmmoForAmmoClass(idPlayer* owner, const char* ammo_classname) const;
-	//int						AmmoIndexForWeaponClass(const char* weapon_classname, int* ammoRequired = NULL);
-	//const char* AmmoClassForWeaponClass(const char* weapon_classname);
-
-
 };
 
 class idPlayer : public idActor {

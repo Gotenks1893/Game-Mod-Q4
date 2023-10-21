@@ -1343,14 +1343,41 @@ idPlayer::idPlayer() {
 	teamDoubler			= NULL;		
 	teamDoublerPending		= false;
 
+	idPkmnAbility tackle = idPkmnAbility("Tackle", 1, 0.4, 1, 1, 1);
+	idPkmnAbility fireFang = idPkmnAbility("Fire Fang", 0.8, 0.8, 1, 1, 1);
+	idPkmnAbility aquaTail = idPkmnAbility("Aqua Tail", 0.7, 0.9, 1, 1, 1);
+	idPkmnAbility razorLeaf = idPkmnAbility("Razor Leaf", 0.9, 0.7, 1, 1, 1);
+	idPkmnAbility tailWhip = idPkmnAbility("Tail Whip", 1, 0, 1, 0.7, 1);
+	idPkmnAbility growl = idPkmnAbility("Growl", 1, 0, 0.7, 1, 1);
+	idPkmnAbility scaryFace = idPkmnAbility("Scary Face", 1, 0, 1, 1, 0.7);
+
+	idList<idPkmnAbility> abilitiesCharmander = idList<idPkmnAbility>();
+	abilitiesCharmander.Insert(growl);
+	abilitiesCharmander.Insert(scaryFace);
+	abilitiesCharmander.Insert(fireFang);
+	abilitiesCharmander.Insert(tackle);
+
+
+	idList<idPkmnAbility> abilitiesBulbasaur = idList<idPkmnAbility>();
+	abilitiesBulbasaur.Insert(tailWhip);
+	abilitiesBulbasaur.Insert(growl);
+	abilitiesBulbasaur.Insert(razorLeaf);
+	abilitiesBulbasaur.Insert(tackle);
+
+	idList<idPkmnAbility> abilitiesShiggy= idList<idPkmnAbility>();
+	abilitiesShiggy.Insert(tailWhip);
+	abilitiesShiggy.Insert(scaryFace);
+	abilitiesShiggy.Insert(aquaTail);
+	abilitiesShiggy.Insert(tackle);
 
 	pokemonTeam = idList<idPokemon>();
-	idPokemon charmander = idPokemon("Charmander", 100, 100, 200, 0, 5, 10, 50, 50, 50, 50);
+	idPokemon charmander = idPokemon("Charmander", 100, 100, 200, 0, 5, 10, 60, 60, 40, 40, 60, 60, abilitiesCharmander);
 	pokemonTeam.Insert(charmander);
-	idPokemon bulbasaur = idPokemon("Bulbasaur", 120, 120, 200, 0, 4, 10, 50, 50, 50, 50);
+	idPokemon bulbasaur = idPokemon("Bulbasaur", 120, 120, 200, 0, 5, 10, 50, 50, 60, 60, 40, 40, abilitiesBulbasaur);
 	pokemonTeam.Insert(bulbasaur);
-	idPokemon shiggy = idPokemon("Shiggy", 120, 120, 200, 0, 6, 0, 50, 50, 50, 50);
+	idPokemon shiggy = idPokemon("Shiggy", 110, 110, 200, 0, 5, 9, 55, 55, 50, 50, 50, 50, abilitiesShiggy);
 	pokemonTeam.Insert(shiggy);
+
 
 }
 
