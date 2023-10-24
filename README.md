@@ -1,7 +1,11 @@
 # Quakemon
 
-Quakemon is a Pokemon like mod for Quake 4. It was created as the midterm project for class IT266 Game Mod Development. The plan was to make a mod where can fight wild Pokemon with yout Pokemon in a 2d combat screen.
+Quakemon is a Pokemon like mod for Quake 4. It was created as the midterm project for class IT266 Game Mod Development. 
+The plan was to make a mod where you can fight wild Pokemon with your Pokemon in a 2d combat screen.
+Unfortunately the combat was not implemented.
 
+- To look at the stats of your team use the command "teamstats"
+- To use an item from your inventory use the command "useitem 'item name' 'pokemon name'"
 
 ## Personal Deliverables:
 - 10 pokemon ingame

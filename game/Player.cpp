@@ -1426,6 +1426,8 @@ idPlayer::idPlayer() {
 	pokemonItems.Insert(rareCandy);
 	pokemonItems.Insert(rareCandy);
 	pokemonItems.Insert(rareCandy);
+	pokemonItems.Insert(superPotion);
+
 }
 
 /*
