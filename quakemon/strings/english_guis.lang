@@ -1116,6 +1116,6 @@
 	"#str_223009"	"Enable detailed sky"
 	
 	"#str_223010"	"HELP"
-	"#str_223011"	"This mod is a Pokemon-like game in Quake. You are able to fight against Quakemon, level your Quakemon and use items on your Quakemon."
+	"#str_223011"	"This mod is supposed to be a Pokemon-like game in Quake. To look at the stats of your team use the command 'teamstats' and to use an item from your inventory use the command 'useitem <item name> <pokemon name>'."
 
 }

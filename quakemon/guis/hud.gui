@@ -2766,10 +2766,100 @@ windowDef Desktop
     }
 	windowDef item_1
     {
-        rect        450,60,100,25
+        rect        450,60,150,25
         visible        1
         forecolor        1,1,1,1
-        text        "Potion"
+        text        "gui::item_1"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_2
+    {
+        rect        450,80,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_2"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_3
+    {
+        rect        450,100,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_3"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_4
+    {
+        rect        450,120,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_4"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_5
+    {
+        rect        450,140,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_5"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_6
+    {
+        rect        450,160,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_6"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_7
+    {
+        rect        450,180,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_7"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_8
+    {
+        rect        450,200,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_8"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_9
+    {
+        rect        450,220,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_9"
+        textscale        0.3
+        font        "fonts/marine"
+        textstyle        2
+    }
+	windowDef item_10
+    {
+        rect        450,240,150,25
+        visible        1
+        forecolor        1,1,1,1
+        text        "gui::item_10"
         textscale        0.3
         font        "fonts/marine"
         textstyle        2
