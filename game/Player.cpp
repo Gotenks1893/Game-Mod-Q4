@@ -1371,14 +1371,61 @@ idPlayer::idPlayer() {
 	abilitiesShiggy.Insert(tackle);
 
 	pokemonTeam = idList<idPokemon>();
-	idPokemon charmander = idPokemon("Charmander", 100, 100, 200, 0, 5, 10, 60, 60, 40, 40, 60, 60, abilitiesCharmander);
+	
+	idList<int> starterEvolutionLevels = idList<int>();
+	starterEvolutionLevels.Insert(36);
+	starterEvolutionLevels.Insert(10);
+
+	idList<int> noEvolutionLevels = idList<int>();
+	noEvolutionLevels.Insert(0);
+
+	idStrList charmanderEvolutions = idStrList();
+	charmanderEvolutions.Insert("Charizard");
+	charmanderEvolutions.Insert("Charmeleon");
+	idPokemon charmander = idPokemon("Charmander", 100, 70, 200, 0, 8, starterEvolutionLevels, 60, 60, 40, 40, 60, 60, abilitiesCharmander, charmanderEvolutions);
 	pokemonTeam.Insert(charmander);
-	idPokemon bulbasaur = idPokemon("Bulbasaur", 120, 120, 200, 0, 5, 10, 50, 50, 60, 60, 40, 40, abilitiesBulbasaur);
+
+	idStrList bulbEvos = idStrList();
+	bulbEvos.Insert("Venusaur");
+	bulbEvos.Insert("Ivysaur");
+	idPokemon bulbasaur = idPokemon("Bulbasaur", 120, 60, 200, 0, 8, starterEvolutionLevels, 50, 50, 60, 60, 40, 40, abilitiesBulbasaur, bulbEvos);
 	pokemonTeam.Insert(bulbasaur);
-	idPokemon shiggy = idPokemon("Shiggy", 110, 110, 200, 0, 5, 9, 55, 55, 50, 50, 50, 50, abilitiesShiggy);
+
+	idStrList shiggyEvos = idStrList();
+	shiggyEvos.Insert("Blastoise");
+	shiggyEvos.Insert("Wartortle");
+	idPokemon shiggy = idPokemon("Shiggy", 110, 110, 200, 0, 8, starterEvolutionLevels, 55, 55, 50, 50, 50, 50, abilitiesShiggy, shiggyEvos);
 	pokemonTeam.Insert(shiggy);
 
+	idPokemon pikachu = idPokemon("Pikachu", 60, 60, 140, 0, 5, noEvolutionLevels, 50, 50, 30, 30, 40, 40, abilitiesCharmander);
+	pokemonTeam.Insert(pikachu);
+	idPokemon chansey = idPokemon("Chansey", 220, 220, 200, 0, 8, noEvolutionLevels, 20, 20, 60, 60, 40, 40, abilitiesBulbasaur);
+	pokemonTeam.Insert(chansey);
+	idPokemon tauros = idPokemon("Tauros", 110, 110, 200, 0, 9, noEvolutionLevels, 75, 75, 50, 50, 50, 50, abilitiesShiggy);
+	pokemonTeam.Insert(tauros);
+	idPokemon eevee = idPokemon("Eevee", 70, 70, 160, 0, 5, noEvolutionLevels, 60, 60, 50, 50, 60, 60, abilitiesCharmander);
+	pokemonTeam.Insert(eevee);
+	idPokemon snorlax = idPokemon("Snorlax", 160, 160, 200, 0, 8, noEvolutionLevels, 50, 50, 70, 70, 20, 20, abilitiesBulbasaur);
+	pokemonTeam.Insert(snorlax);
+	idPokemon mew = idPokemon("Mew", 120, 120, 200, 0, 5, noEvolutionLevels, 60, 60, 60, 60, 80, 80, abilitiesBulbasaur);
+	pokemonTeam.Insert(mew);
+	idPokemon mewtwo = idPokemon("Mewtwo", 120, 120, 200, 0, 5, noEvolutionLevels, 65, 65, 70, 70, 70, 70, abilitiesShiggy);
+	pokemonTeam.Insert(mewtwo);
 
+	pokemonItems = idList<idPkmnItem>();
+	idPkmnItem superPotion = idPkmnItem("Super Potion", HEALING, 50);
+	idPkmnItem rareCandy = idPkmnItem("Rare Candy", XP, 1);
+	idPkmnItem xAttack = idPkmnItem("X-Attack", ATTACK, 2);
+	idPkmnItem xDefense = idPkmnItem("X-Defense", DEFENSE, 2);
+	idPkmnItem xSpeed = idPkmnItem("X-Speed", SPEED, 2);
+	pokemonItems.Insert(superPotion);
+	pokemonItems.Insert(rareCandy);
+	pokemonItems.Insert(xAttack);
+	pokemonItems.Insert(xDefense);
+	pokemonItems.Insert(xSpeed);
+	pokemonItems.Insert(rareCandy);
+	pokemonItems.Insert(rareCandy);
+	pokemonItems.Insert(rareCandy);
 }
 
 /*
@@ -3474,13 +3521,32 @@ void idPlayer::UpdateHudStats( idUserInterface *_hud ) {
 		UpdateHudAmmo( _hud );
 	}
 
-	for (int i = 0; i < pokemonTeam.Num(); i++) {
+	for (int i = 0; i < 10; i++) {
 		idStr pokemonName = "pokemon_name_";
-		pokemonName.Append(idStr(i+1));
-		_hud->SetStateString(pokemonName, pokemonTeam[i].name);
+		pokemonName.Append(idStr(i + 1));
 		idStr pokemonLevel = "pokemon_level_";
 		pokemonLevel.Append(idStr(i + 1));
-		_hud->SetStateString(pokemonLevel, va("%i", pokemonTeam[i].level));
+		if (i < pokemonTeam.Num()) {
+			_hud->SetStateString(pokemonName, pokemonTeam[i].name);
+			_hud->SetStateString(pokemonLevel, va("%i", pokemonTeam[i].level));
+		}
+		else {
+			_hud->SetStateString(pokemonName, "");
+			_hud->SetStateString(pokemonLevel, "");
+		}
+		
+	}
+
+	for (int i = 0; i < 10; i++) {
+		idStr itemName = "item_";
+		itemName.Append(idStr(i + 1));
+		if (i < pokemonItems.Num()) {
+			_hud->SetStateString(itemName, pokemonItems[i].name);
+		}
+		else {
+			_hud->SetStateString(itemName, "");
+		}
+
 	}
 	
 	_hud->StateChanged( gameLocal.time );
@@ -14134,27 +14200,42 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 	return weaponNum;
 }
 
-///*
-//==============
-//idPokemon::idPokemon
-//==============
-//*/
-//idPokemon::idPokemon(idStr name, int maxHealth, int	currentHealth, int maxXp,
-//int						currentXp,
-//int						level,
-//int						evolutionLevel,
-//int						maxAttack,
-//int						currentAttack,
-//int						maxDefense,
-//int						currentDefense) {
-//
-//	maxAttack = 100;
-//	max
-//	idPokemon charmander = idPokemon();
-//	pokemonTeam.Insert("Charmander");
-//	pokemonTeam.Insert("Bulbasaur");
-//	pokemonTeam.Insert("Shiggy");
-//
-//}
+
+void idPokemon::LevelUp(int xp)
+{
+	level += 1;
+	gameLocal.Printf("%s reached level %i.\n", name.c_str(), level);
+	for (int i = 0; i < evolutionLevel.Num(); i++) {
+		if (level == evolutionLevel[i]) {
+			gameLocal.Printf("%s evolved into %s.\n", name.c_str(), evolutionPkmn[i].c_str());
+			maxHealth += 30;
+			currentHealth += 30;
+			maxAttack += 30;
+			currentAttack += 30;
+			maxDefense += 30;
+			currentDefense += 30;
+			maxSpeed += 30;
+			currentSpeed += 30;
+			name = evolutionPkmn[i];
+		}
+	}
+	maxHealth += 2;
+	currentHealth += 2;
+	maxXp += 15;
+	maxAttack += 2;
+	currentAttack += 2;
+	maxDefense += 2;
+	currentDefense += 2;
+	maxSpeed += 2;
+	currentSpeed += 2;
+	currentXp = 0;
+	//currentXp += xp;
+	//if (currentXp > maxXp) {
+	//	LevelUp(currentXp - maxXp);
+	//}
+
+
+}
+
 
 // RITUAL END

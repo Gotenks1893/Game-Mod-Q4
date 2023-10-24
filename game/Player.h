@@ -267,6 +267,32 @@ public:
 	int						secretAreasDiscovered;
 };
 
+typedef enum {
+	HEALING,
+	XP,
+	ATTACK,
+	DEFENSE,
+	SPEED
+} itemType_t;
+
+class idPkmnItem{
+public:
+	idStr					name;
+	itemType_t				itemType;
+	int						value;
+		
+
+	idPkmnItem() { name = "item"; }
+
+	idPkmnItem(idStr _name, itemType_t _itemType, int _value)
+	{
+		name = _name;
+		itemType = _itemType;
+		value = _value;
+	}
+};
+
+
 class idPkmnAbility {
 public:
 	idStr					name;
@@ -304,7 +330,7 @@ public:
 	int						maxXp;
 	int						currentXp;
 	int						level;
-	int						evolutionLevel;
+	idList<int>				evolutionLevel;
 	int						maxAttack;
 	int						currentAttack;
 	int						maxDefense;
@@ -312,6 +338,7 @@ public:
 	int						maxSpeed;
 	int						currentSpeed;
 	idList<idPkmnAbility>	abilities;
+	idStrList				evolutionPkmn;
 
 
 	idPokemon() { name = "pokemon"; }
@@ -322,7 +349,7 @@ public:
 				int						_maxXp,
 				int						_currentXp,
 				int						_level,
-				int						_evolutionLevel,
+				idList<int>				_evolutionLevel,
 				int						_maxAttack,
 				int						_currentAttack,
 				int						_maxDefense,
@@ -346,6 +373,43 @@ public:
 		currentSpeed = _currentSpeed;
 		abilities = _abilities;
 	}
+
+	idPokemon(idStr				_name,
+		int						_maxHealth,
+		int						_currentHealth,
+		int						_maxXp,
+		int						_currentXp,
+		int						_level,
+		idList<int>				_evolutionLevel,
+		int						_maxAttack,
+		int						_currentAttack,
+		int						_maxDefense,
+		int						_currentDefense,
+		int						_maxSpeed,
+		int						_currentSpeed,
+		idList<idPkmnAbility>	_abilities,
+		idStrList				_evolutionPkmn)
+	{
+		name = _name;
+		maxHealth = _maxHealth;
+		currentHealth = _currentHealth;
+		maxXp = _maxXp;
+		currentXp = _currentXp;
+		level = _level;
+		evolutionLevel = _evolutionLevel;
+		maxAttack = _maxAttack;
+		currentAttack = _currentAttack;
+		maxDefense = _maxDefense;
+		currentDefense = _currentDefense;
+		maxSpeed = _maxSpeed;
+		currentSpeed = _currentSpeed;
+		abilities = _abilities;
+		evolutionPkmn = _evolutionPkmn;
+	}
+
+	void					LevelUp(int xp);
+	//void					UseItem();
+
 };
 
 class idPlayer : public idActor {
@@ -507,6 +571,7 @@ public:
 // RITUAL END
 
 	idList<idPokemon>		pokemonTeam;
+	idList<idPkmnItem>		pokemonItems;
 
 
 public:

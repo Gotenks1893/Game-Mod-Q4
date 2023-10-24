@@ -2952,14 +2952,103 @@ void Cmd_TeamStats_f(const idCmdArgs& args) {
 		gameLocal.Printf("Speed: %i/%i\n", allPokemon[i].currentSpeed, allPokemon[i].maxSpeed);
 		gameLocal.Printf("Abilities: %s, %s, %s, %s\n", allPokemon[i].abilities[0].name.c_str(), allPokemon[i].abilities[1].name.c_str(), 
 			allPokemon[i].abilities[2].name.c_str(), allPokemon[i].abilities[3].name.c_str());
-		if (allPokemon[i].evolutionLevel != 0) {
-			gameLocal.Printf("Evolution at Lvl : % i\n\n", allPokemon[i].evolutionLevel);
+		if (allPokemon[i].evolutionLevel[0] != 0) {
+			if (allPokemon[i].evolutionLevel[0] > allPokemon[i].level) {
+				gameLocal.Printf("Evolution at Lvl : % i\n\n", allPokemon[i].evolutionLevel[0]);
+				continue;
+			}
+			else if (allPokemon[i].evolutionLevel.Num() > 1) {
+				if (allPokemon[i].evolutionLevel[1] > allPokemon[i].level) {
+					gameLocal.Printf("Evolution at Lvl : % i\n\n", allPokemon[i].evolutionLevel[1]);
+					continue;
+				}
+			}
 		}
-		else {
-			gameLocal.Printf("No evolution\n\n");
-		}
-		
+		gameLocal.Printf("No evolution\n\n");		
 	}
+}
+
+void Cmd_UseItem_f(const idCmdArgs& args) {
+	if (args.Argc() <= 2) {
+		common->Printf("usage: useitem <Item Name> <Pokemon Name>\n");
+		return;
+	}
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	if (!player) {
+		common->Printf("ERROR: Cmd_UseItem_f() failed, since GetLocalPlayer() was NULL.\n", player);
+		return;
+	}
+	idList<idPkmnItem> allItems = player->pokemonItems;
+	idPkmnItem usedItem;
+	int indexItem = 0;
+	bool itemExists = false;
+	for (int i = 0; i < allItems.Num(); i++) {
+		if (allItems[i].name == args.Argv(1)) {
+			gameLocal.Printf("%s\n", allItems[i].name.c_str());
+			usedItem = allItems[i];
+			itemExists = true;
+			indexItem = i;
+			break;
+		}
+	}
+	if (!itemExists) {
+		common->Printf("%s is not in the inventory.\n", args.Argv(1));
+		return;
+	}
+
+	idList<idPokemon> allPokemon = player->pokemonTeam;
+	idPokemon usedPkmn;
+	int pkmnIndex = 0;
+	bool pkmnExists = false;
+	for (int i = 0; i < allPokemon.Num(); i++) {
+		if (allPokemon[i].name == args.Argv(2)) {
+			usedPkmn = allPokemon[i];
+			pkmnExists = true;
+			pkmnIndex = i;
+			break;
+		}
+	}
+	if (!pkmnExists) {
+		common->Printf("%s is not in the team.\n", args.Argv(2));
+		return;
+	}
+	switch (usedItem.itemType)
+	{
+	case HEALING:
+		if (usedPkmn.currentHealth == usedPkmn.maxHealth) {
+			common->Printf("%s is already at full health.\n", usedPkmn.name.c_str());
+			return;
+		}
+		usedPkmn.currentHealth += usedItem.value;
+		if (usedPkmn.currentHealth > usedPkmn.maxHealth) {
+			gameLocal.Printf("%s was healed by %i HP.\n", usedPkmn.name.c_str(),  usedItem.value + usedPkmn.maxHealth - usedPkmn.currentHealth);
+			usedPkmn.currentHealth = usedPkmn.maxHealth;
+			break;
+		}
+		gameLocal.Printf("%s was healed by %i HP.\n", usedPkmn.name.c_str(), usedItem.value);
+		break;
+	case XP:
+		usedPkmn.LevelUp(0);
+		break;
+	case ATTACK:
+		usedPkmn.currentAttack *= usedItem.value;
+		gameLocal.Printf("Attack of %s was doubled.\n", usedPkmn.name.c_str());
+		break;
+	case DEFENSE:
+		usedPkmn.currentDefense *= usedItem.value;
+		gameLocal.Printf("Defense of %s was doubled.\n", usedPkmn.name.c_str());
+		break;
+	case SPEED:
+		usedPkmn.currentSpeed *= usedItem.value;
+		gameLocal.Printf("Speed of %s was doubled.\n", usedPkmn.name.c_str());
+		break;
+	default:
+		break;
+	}
+	allItems.RemoveIndex(indexItem);
+	allPokemon[pkmnIndex] = usedPkmn;
+	player->pokemonTeam = allPokemon;
+	player->pokemonItems = allItems;
 }
 
 // RITUAL BEGIN
@@ -3275,6 +3364,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "whereami",				Cmd_Whereami_f,				CMD_FL_GAME,				"Where am I");
 	cmdSystem->AddCommand("teamstats", Cmd_TeamStats_f, CMD_FL_GAME, "Get the stats of every pokemon of your team");
+	cmdSystem->AddCommand("useitem", Cmd_UseItem_f, CMD_FL_GAME, "Use a specified item on a specified pokemon");
+
 
 // RITUAL END
 
